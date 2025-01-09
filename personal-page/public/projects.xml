@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projects>
+  <project>
+    <id>1</id>
+    <title>Orfion Olive Oil</title>
+    <description>My personal Business website built with Wordpress and woocommerce e-commerce system.</description>
+    <image>img/orfion.jpg</image>
+    <hoverImage>img/orfion2.png</hoverImage>
+    <link>https://www.orfion.com.tr</link>
+    <github>https://github.com/0xOzgur</github>
+    <tags>
+      <tag>Wordpress</tag>
+      <tag>Woocommerce</tag>
+      <tag>Payment Gateway</tag>
+      <tag>SEO</tag>
+    </tags>
+  </project>
+
+  <project>
+    <id>2</id>
+    <title>Personal Website</title>
+    <description>My personal website built with React and styled-components.</description>
+    <image>img/ou.jpg</image>
+    <hoverImage>img/ou2.jpg</hoverImage>
+    <link>https://www.ozguruzden.com</link>
+    <github>https://github.com/yourusername/personal-website</github>
+    <tags>
+      <tag>React</tag>
+      <tag>Styled Components</tag>
+      <tag>Responsive Design</tag>
+    </tags>
+  </project>
+
+  <project>
+    <id>3</id>
+    <title>Quilibrium Space</title>
+    <description>Quilibrium Documentation and Support Site.</description>
+    <image>img/quilibrium1.jpg</image>
+    <hoverImage>img/quilibrium2.jpg</hoverImage>
+    <link>https://quilibrium.space/</link>
+    <github>https://github.com/0xOzgur/quilibrium-space</github>
+    <tags>
+      <tag>Next.js</tag>
+      <tag>Javascript</tag>
+      <tag>GitBook</tag>
+    </tags>
+  </project>
+
+  <project>
+    <id>4</id>
+    <title>Quilibrium Tools</title>
+    <description>A Bash script for Quilibrium Node runners that serve many basic tools.</description>
+    <image>img/qdummies.png</image>
+    <hoverImage>img/qdummies.png</hoverImage>
+    <link>https://github.com/0xOzgur/QuilibriumTools</link>
+    <github>https://github.com/0xOzgur/QuilibriumTools</github>
+    <tags>
+      <tag>Bash</tag>
+      <tag>Go</tag>
+      <tag>gRPC</tag>
+      <tag>Linux</tag>
+    </tags>
+  </project>
+</projects>

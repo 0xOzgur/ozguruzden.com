@@ -1,0 +1,85 @@
+:root {
+  /* Ana Tema Renkleri */
+  --primary-dark: #1A202C;    /* Arka plan için koyu lacivert */
+  --secondary-dark: #2D3748;  /* İkincil arka plan */
+  --highlight-blue: #34A85A;  /* Vurgu rengi - açık yeşil */
+  --text-primary: #F7FAFC;    /* Ana metin rengi - açık beyaz */
+  --text-secondary: #E2E8F0;  /* İkincil metin rengi */
+  --navy-shadow: rgba(2,12,27,0.7); /* Gölgeler için */
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  background-color: var(--primary-dark);
+  color: var(--text-primary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+/* Genel buton stilleri */
+.btn {
+  padding: 12px 24px;
+  border: 2px solid var(--highlight-blue);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--highlight-blue);
+}
+
+.btn:hover {
+  background-color: rgba(100, 255, 218, 0.1);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--highlight-blue);
+}
+
+/* src/index.css */
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top button {
+  background-color: var(--highlight-blue);
+  color: var(--primary-dark);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top button:hover {
+  background-color: var(--text-primary);
+  color: var(--highlight-blue);
+}
+
+.scroll-to-top i {
+  font-size: 20px;
+}
