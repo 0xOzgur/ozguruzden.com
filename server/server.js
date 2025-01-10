@@ -1,98 +1,84 @@
-// server.js
+const express = require('express');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-
 const app = express();
+
+// Middleware
 app.use(express.json());
-app.use(cors({
-  origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com', 'http://localhost:3000'],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  credentials: true
-}));
+app.use(cors());
 
-// Test endpoint'i
-app.get('/api/test', (req, res) => {
-  console.log('Test endpoint hit!');
-  res.json({ message: 'API is working!' });
-});
-
-// E-posta gönderme endpoint'i
-app.post('/api/send-email', async (req, res) => {
-  const { name, email, subject, message } = req.body;
-  console.log('Received request:', { name, email, subject, message });
-
-  try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      },
-      tls: {
-        rejectUnauthorized: false
-      }
-    });
-
-    const mailOptions = {
-      from: `"${name}" <${email}>`,
-      to: process.env.EMAIL_USER,
-      subject: subject,
-      text: `
-        Yeni bir mesaj aldınız:
-
-        Gönderen: ${name}
-        Email: ${email}
-
-        Konu: ${subject}
-
-        Mesaj:
-        ${message}
-      `,
-      sender: `"${name}" <${email}>`,
-      replyTo: email
-    };
-
-    console.log('Mail Options:', mailOptions);
-
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully');
-    res.status(200).json({ success: true, message: 'Email sent successfully' });
-  } catch (error) {
-    console.error('Email gönderilirken hata oluştu:', error);
-    res.status(500).json({ success: false, message: 'Error sending email', error: error.message });
-  }
-});
-
-// Hata yönetimi
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
-});
-
-// 404 hata yönetimi
+// Debug için tüm istekleri logla
 app.use((req, res, next) => {
-  console.log(`404 Not Found: ${req.method} ${req.url}`);
-  res.status(404).send("Sayfa bulunamadı");
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
 });
 
-// Her isteği loglama
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
+// Test endpoint
+app.get('/test', (req, res) => {
+    console.log('Test endpoint hit!');
+    res.json({ message: 'API is working!' });
 });
 
-// Sunucu dinleme
+// Email endpoint
+app.post('/send-email', async (req, res) => {
+    console.log('Email endpoint hit!', req.body);
+    const { name, email, subject, message } = req.body;
+
+    try {
+        // Email transporter oluştur
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        // Email içeriği
+        const mailOptions = {
+            from: `"${name}" <${email}>`,
+            to: process.env.EMAIL_USER, // Kendi email adresiniz
+            subject: `Yeni İletişim Formu Mesajı: ${subject}`,
+            text: `
+                Yeni bir mesaj aldınız:
+                
+                İsim: ${name}
+                Email: ${email}
+                Konu: ${subject}
+                
+                Mesaj:
+                ${message}
+            `,
+            html: `
+                <h3>Yeni bir mesaj aldınız</h3>
+                <p><strong>İsim:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Konu:</strong> ${subject}</p>
+                <p><strong>Mesaj:</strong></p>
+                <p>${message}</p>
+            `
+        };
+
+        // Email gönder
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+        res.json({ success: true, message: 'Email başarıyla gönderildi!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Email gönderilirken bir hata oluştu',
+            error: error.message 
+        });
+    }
+});
+
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log('Environment variables:', {
-    EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
-    EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not set',
-    PORT: process.env.PORT || 3001
-  });
+app.listen(PORT, '127.0.0.1', () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log('Available endpoints:');
+    console.log('- GET /test');
+    console.log('- POST /send-email');
 });
