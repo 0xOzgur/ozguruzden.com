@@ -18,14 +18,11 @@ app.use(cors({
 
 // Debug middleware
 app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
-    next();
-});
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://ozguruzden.com');
+    const allowedOrigins = ['https://ozguruzden.com', 'https://www.ozguruzden.com'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+    }
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
     if (req.method === 'OPTIONS') {
