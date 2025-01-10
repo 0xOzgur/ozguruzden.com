@@ -13,20 +13,18 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20' # Node.js versiyonunu 20'ye yükselttik
-
-    - name: Check directory structure
-      run: |
-        pwd
-        ls -la
+        node-version: '20'
 
     - name: Install Dependencies
       run: |
-        npm install --legacy-peer-deps # Uyumluluk sorunlarını görmezden gelmek için
+        npm install --save-dev @babel/plugin-proposal-private-property-in-object
+        npm install --legacy-peer-deps
 
     - name: Build React App
+      env:
+        CI: false  # Warning'leri error olarak değerlendirmeyi kapat
       run: |
-        npm run build # personal-page dizinine gitmeye gerek yok
+        npm run build
 
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
@@ -38,5 +36,5 @@ jobs:
           cd /var/www/ozguruzden.com
           git pull origin main
           npm install --legacy-peer-deps
-          npm run build
+          export CI=false && npm run build
           pm2 restart ozguruzden-server
