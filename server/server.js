@@ -29,7 +29,7 @@ app.get('/test', (req, res) => {
 });
 
 // Email endpoint
-app.post('/send-email', async (req, res) => {
+app.post('/api/send-email', async (req, res) => {
     console.log('Email endpoint hit with data:', {
         body: req.body,
         headers: req.headers
