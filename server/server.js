@@ -95,8 +95,8 @@ const PORT = process.env.PORT || 3001;
 
 // HTTPS configuration
 const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/fullchain.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/privkey5.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/fullchain5.pem')
 };
 
 https.createServer(options, app).listen(PORT, '0.0.0.0', () => {
