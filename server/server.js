@@ -7,36 +7,40 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
+}));
 
-// E-posta kimlik bilgilerini ortam değişkenlerinden alalım
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
+// Test endpoint'i
+app.get('/api/test', (req, res) => {
+  console.log('Test endpoint hit!');
+  res.json({ message: 'API is working!' });
+});
 
 // E-posta gönderme endpoint'i
 app.post('/api/send-email', async (req, res) => {
   const { name, email, subject, message } = req.body;
+  console.log('Received request:', { name, email, subject, message });
 
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
-      secure: false, // or 'STARTTLS'
+      secure: false,
       auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASS
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
       },
       tls: {
         rejectUnauthorized: false
-      },
-      headers: {
-        'X-Mailer': 'Nodemailer'
       }
     });
 
     const mailOptions = {
       from: `"${name}" <${email}>`,
-      to: EMAIL_USER,
+      to: process.env.EMAIL_USER,
       subject: subject,
       text: `
         Yeni bir mesaj aldınız:
@@ -56,10 +60,11 @@ app.post('/api/send-email', async (req, res) => {
     console.log('Mail Options:', mailOptions);
 
     await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
     res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('Email gönderilirken hata oluştu:', error);
-    res.status(500).json({ success: false, message: 'Error sending email' });
+    res.status(500).json({ success: false, message: 'Error sending email', error: error.message });
   }
 });
 
@@ -71,15 +76,23 @@ app.use((err, req, res, next) => {
 
 // 404 hata yönetimi
 app.use((req, res, next) => {
+  console.log(`404 Not Found: ${req.method} ${req.url}`);
   res.status(404).send("Sayfa bulunamadı");
 });
-
-// Sunucu dinleme
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Her isteği loglama
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
+});
+
+// Sunucu dinleme
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log('Environment variables:', {
+    EMAIL_USER: process.env.EMAIL_USER ? 'Set' : 'Not set',
+    EMAIL_PASS: process.env.EMAIL_PASS ? 'Set' : 'Not set',
+    PORT: process.env.PORT || 3001
+  });
 });
