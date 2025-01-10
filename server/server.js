@@ -15,7 +15,13 @@ app.use(cors({
 
 // Debug için tüm istekleri logla
 app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    console.log('Incoming request:', {
+        timestamp: new Date().toISOString(),
+        method: req.method,
+        path: req.path,
+        headers: req.headers,
+        body: req.body
+    });
     next();
 });
 
@@ -27,7 +33,11 @@ app.get('/test', (req, res) => {
 
 // Email endpoint
 app.post('/send-email', async (req, res) => {
-    console.log('Email endpoint hit!', req.body);
+    console.log('Email endpoint hit with data:', {
+        body: req.body,
+        headers: req.headers
+    });
+    
     const { name, email, subject, message } = req.body;
 
     try {
@@ -43,7 +53,7 @@ app.post('/send-email', async (req, res) => {
         // Email içeriği
         const mailOptions = {
             from: `"${name}" <${email}>`,
-            to: process.env.EMAIL_USER, // Kendi email adresiniz
+            to: process.env.EMAIL_USER,
             subject: `Yeni İletişim Formu Mesajı: ${subject}`,
             text: `
                 Yeni bir mesaj aldınız:
@@ -80,8 +90,8 @@ app.post('/send-email', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '127.0.0.1', () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
     console.log('- GET /test');
     console.log('- POST /send-email');

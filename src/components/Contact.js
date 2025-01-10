@@ -1,5 +1,3 @@
-// src/components/Contact.js
-
 import React, { useState } from 'react';
 import './Contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,6 +17,7 @@ function Contact() {
     setSuccess(null);
 
     try {
+      console.log('Sending email request...');
       const response = await fetch('https://ozguruzden.com/api/send-email', {
         method: 'POST',
         headers: {
@@ -27,11 +26,14 @@ function Contact() {
         body: JSON.stringify({ name, email, subject, message }),
       });
 
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
+      console.log('Response data:', result);
 
       if (result.success) {
         setSuccess('Mesajınız başarıyla gönderildi!');
@@ -50,6 +52,33 @@ function Contact() {
     }
   };
 
+  const testConnection = async () => {
+    try {
+      console.log('Testing API connection...');
+      const testResponse = await fetch('https://ozguruzden.com/api/test');
+      const testData = await testResponse.json();
+      console.log('Test response:', testData);
+
+      console.log('Testing email endpoint...');
+      const emailResponse = await fetch('https://ozguruzden.com/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: 'Test User',
+          email: 'test@test.com',
+          subject: 'Test Subject',
+          message: 'Test Message'
+        }),
+      });
+      const emailData = await emailResponse.json();
+      console.log('Email test response:', emailData);
+    } catch (error) {
+      console.error('Test failed:', error);
+    }
+  };
+
   return (
     <section id="contact" className="contact-section">
       <div className="container">
@@ -57,13 +86,13 @@ function Contact() {
         <div className="contact-content">
           <div className="contact-info">
             <h3>Contact Me</h3>
-            <p>Email: ozgur@orfion.com.tr </p>
+            <p>Email: ozgur@orfion.com.tr</p>
             <p>Phone: +90 555 879 09 56</p>
             <p>Address: Ayvalık, Türkiye</p>
-            {success && <p>{success}</p>}
+            {success && <p className="message">{success}</p>}
             <h3>Social Media</h3>
             <div className="social-links">
-            <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faTwitter} size="3x" />
               </a>
               <a href="https://www.linkedin.com/in/ozguruzden/" target="_blank" rel="noopener noreferrer">
@@ -110,6 +139,9 @@ function Contact() {
             ></textarea>
             <button type="submit" disabled={sending}>
               {sending ? 'Gönderiliyor...' : 'Gönder'}
+            </button>
+            <button type="button" onClick={testConnection}>
+              Test API Connection
             </button>
           </form>
         </div>
