@@ -10,26 +10,11 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://ozguruzden.com', 'http://www.ozguruzden.com'],
+    origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true
 }));
-
-// Debug middleware
-app.use((req, res, next) => {
-    const allowedOrigins = ['https://ozguruzden.com', 'https://www.ozguruzden.com'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin);
-    }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
 
 // Test endpoint
 app.get('/api', (req, res) => {
@@ -93,16 +78,6 @@ app.post('/api/send-email', async (req, res) => {
             error: error.message 
         });
     }
-});
-
-// Error handling middleware
-app.use((req, res, next) => {
-    res.status(404).json({ message: 'Endpoint not found' });
-});
-
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: 'Internal server error' });
 });
 
 const PORT = process.env.PORT || 3001;
