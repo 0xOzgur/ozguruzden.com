@@ -39,9 +39,6 @@ jobs:
           cd /var/www/ozguruzden.com
           rm -rf build
           mkdir -p build
-          
-          # PM2 process'i yeniden başlat
-          pm2 restart all
 
 
             echo "NODE_ENV=production" > .env
