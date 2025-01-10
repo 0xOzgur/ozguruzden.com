@@ -59,40 +59,6 @@ function Contact() {
     }
   };
 
-  const testApi = async () => {
-    try {
-      // Test GET request
-      console.log('Testing GET endpoint...');
-      const testResponse = await fetch(`${apiUrl}/test`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-        credentials: 'include'
-      });
-      console.log('Test GET response:', await testResponse.json());
-
-      // Test POST request
-      console.log('Testing POST endpoint...');
-      const testPostResponse = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: 'Test User',
-          email: 'test@example.com',
-          subject: 'Test Subject',
-          message: 'Test Message'
-        })
-      });
-      console.log('Test POST response:', await testPostResponse.json());
-    } catch (error) {
-      console.error('Test failed:', error);
-    }
-  };
 
   return (
     <section id="contact" className="contact-section">
@@ -154,9 +120,6 @@ function Contact() {
             ></textarea>
             <button type="submit" disabled={sending}>
               {sending ? 'Gönderiliyor...' : 'Gönder'}
-            </button>
-            <button type="button" onClick={testApi}>
-              Test API Connection
             </button>
           </form>
         </div>
