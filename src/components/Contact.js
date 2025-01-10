@@ -19,7 +19,7 @@ function Contact() {
     setSuccess(null);
 
     try {
-      const response = await fetch('http://localhost:3001/send-email', {
+      const response = await fetch('https://ozguruzden.com/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
