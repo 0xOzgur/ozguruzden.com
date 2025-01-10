@@ -11,8 +11,7 @@ app.use(cors({
     origin: ['https://ozguruzden.com', 'http://ozguruzden.com', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: true,
-    optionsSuccessStatus: 200
+    credentials: true
 }));
 
 // Debug middleware
