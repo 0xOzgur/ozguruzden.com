@@ -1,0 +1,56 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install Dependencies
+      run: |
+        npm install
+        cd personal-page
+        npm install
+
+    - name: Build React App
+      run: |
+        cd personal-page
+        npm run build
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          # Backend deployment
+          cd /var/www/ozguruzden.com
+          git pull origin main
+          npm install
+
+          # Frontend deployment
+          cd /var/www/ozguruzden.com/personal-page
+          rm -rf build
+          mkdir -p build
+          
+          # PM2 process'i yeniden başlat
+          pm2 restart all
+
+
+            echo "NODE_ENV=production" > .env
+          echo "PORT=3001" >> .env
+          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
+          echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> .env
+          
+          # PM2 ile yeniden başlat
+          pm2 restart ozguruzden-server
