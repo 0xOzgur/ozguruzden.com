@@ -8,7 +8,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://ozguruzden.com', 'http://ozguruzden.com', 'http://localhost:3000'],
+    origin: ['https://ozguruzden.com', 'http://ozguruzden.com'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true

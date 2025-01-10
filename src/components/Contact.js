@@ -18,7 +18,7 @@ function Contact() {
 
     try {
       console.log('Sending email request...');
-      const response = await fetch('https://193.233.115.42:3001/api/send-email', {
+      const response = await fetch('https://ozguruzden.com/api/send-email', {
 
         method: 'POST',
         headers: {
