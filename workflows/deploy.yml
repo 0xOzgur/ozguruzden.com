@@ -18,12 +18,10 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install
-        cd personal-page
-        npm install
 
     - name: Build React App
       run: |
-        REACT_APP_API_URL=https://ozguruzden.com/api npm run build
+        npm run build
 
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
