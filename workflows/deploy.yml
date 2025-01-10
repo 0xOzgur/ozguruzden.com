@@ -23,7 +23,7 @@ jobs:
 
     - name: Build React App
       run: |
-        NODE_ENV=production npm run build
+        REACT_APP_API_URL=https://ozguruzden.com/api npm run build
 
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
@@ -38,7 +38,7 @@ jobs:
           npm install
 
           # Frontend deployment
-          cd /var/www/ozguruzden.com/personal-page
+          cd /var/www/ozguruzden.com
           rm -rf build
           mkdir -p build
           
