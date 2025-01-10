@@ -28,7 +28,7 @@ app.post('/api/send-email', async (req, res) => {
         body: req.body,
         headers: req.headers
     });
-    
+
     const { name, email, subject, message } = req.body;
 
     try {
@@ -38,7 +38,8 @@ app.post('/api/send-email', async (req, res) => {
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
-            }
+            },
+            debug: true
         });
 
         // Email içeriği
@@ -69,9 +70,19 @@ app.post('/api/send-email', async (req, res) => {
         // Email gönder
         await transporter.sendMail(mailOptions);
         console.log('Email sent successfully');
+        
+        // Yanıt gönderilmeden önce log
+        console.log('Sending response:', { success: true, message: 'Email başarıyla gönderildi!' });
         res.json({ success: true, message: 'Email başarıyla gönderildi!' });
     } catch (error) {
         console.error('Error sending email:', error);
+        
+        // Yanıt gönderilmeden önce log
+        console.log('Sending response:', { 
+            success: false, 
+            message: 'Email gönderilirken bir hata oluştu',
+            error: error.message 
+        });
         res.status(500).json({ 
             success: false, 
             message: 'Email gönderilirken bir hata oluştu',
