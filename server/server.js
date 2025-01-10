@@ -8,20 +8,18 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://ozguruzden.com', 'http://ozguruzden.com'],
-    methods: ['GET', 'POST'],
-    credentials: true
+    origin: ['https://ozguruzden.com', 'http://ozguruzden.com', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+    optionsSuccessStatus: 200
 }));
 
-// Debug için tüm istekleri logla
+// Debug middleware
 app.use((req, res, next) => {
-    console.log('Incoming request:', {
-        timestamp: new Date().toISOString(),
-        method: req.method,
-        path: req.path,
-        headers: req.headers,
-        body: req.body
-    });
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
     next();
 });
 

@@ -22,13 +22,18 @@ function Contact() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ name, email, subject, message }),
       });
 
       console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
       
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -45,35 +50,43 @@ function Contact() {
         throw new Error(result.message || 'Bilinmeyen bir hata oluştu.');
       }
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error('Error details:', error);
       setSuccess(error.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setSending(false);
     }
   };
 
-  const testConnection = async () => {
+  const testApi = async () => {
     try {
-      console.log('Testing API connection...');
-      const testResponse = await fetch('https://ozguruzden.com/api/test');
-      const testData = await testResponse.json();
-      console.log('Test response:', testData);
+      // Test GET request
+      console.log('Testing GET endpoint...');
+      const testResponse = await fetch('https://ozguruzden.com/api/test', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+        credentials: 'include'
+      });
+      console.log('Test GET response:', await testResponse.json());
 
-      console.log('Testing email endpoint...');
-      const emailResponse = await fetch('https://ozguruzden.com/api/send-email', {
+      // Test POST request
+      console.log('Testing POST endpoint...');
+      const testPostResponse = await fetch('https://ozguruzden.com/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           name: 'Test User',
-          email: 'test@test.com',
+          email: 'test@example.com',
           subject: 'Test Subject',
           message: 'Test Message'
-        }),
+        })
       });
-      const emailData = await emailResponse.json();
-      console.log('Email test response:', emailData);
+      console.log('Test POST response:', await testPostResponse.json());
     } catch (error) {
       console.error('Test failed:', error);
     }
@@ -140,7 +153,7 @@ function Contact() {
             <button type="submit" disabled={sending}>
               {sending ? 'Gönderiliyor...' : 'Gönder'}
             </button>
-            <button type="button" onClick={testConnection}>
+            <button type="button" onClick={testApi}>
               Test API Connection
             </button>
           </form>
