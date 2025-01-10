@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,7 +62,7 @@ function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        <a href="#" className="nav-logo">Özgür Üzden</a>
+        <a href="#about" className="nav-logo" onClick={handleClick}>Özgür Üzden </a>
         <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
           <li>
             <a href="#hero" className={`nav-link ${activeLink === 'Home' ? 'active' : ''}`} onClick={handleClick}>

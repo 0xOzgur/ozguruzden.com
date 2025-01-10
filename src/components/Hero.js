@@ -58,8 +58,8 @@ function Hero() {
   return (
     <section id="hero" className="hero">
       <div className="container">
-        <h2 className="hero-title" ref={titleRef}></h2>
-        <h1 className="hero-subtitle" ref={subtitleRef}></h1>
+        <h2 className="hero-title" ref={titleRef}>0xOzgur</h2>
+        <h1 className="hero-subtitle" ref={subtitleRef}>Özgür Üzden</h1>
         <p className="hero-description" ref={descriptionRef}></p>
         <span className="cursor" ref={cursorRef}></span>
         <button ref={buttonRef} className="hero-button fade-out" onClick={handleButtonClick}>
