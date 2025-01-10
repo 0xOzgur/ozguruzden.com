@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
 
@@ -23,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // Test endpoint
-app.get('/test', (req, res) => {
+app.get('/api', (req, res) => {
     console.log('Test endpoint hit!');
     res.json({ message: 'API is working!' });
 });
@@ -86,10 +88,27 @@ app.post('/api/send-email', async (req, res) => {
     }
 });
 
+// Error handling middleware
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Endpoint not found' });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Internal server error' });
+});
+
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
+
+// HTTPS configuration
+const options = {
+  key: fs.readFileSync('/path/to/your/ssl-key.pem'),
+  cert: fs.readFileSync('/path/to/your/ssl-cert.pem')
+};
+
+https.createServer(options, app).listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
-    console.log('- GET /test');
-    console.log('- POST /send-email');
+    console.log('- GET /api');
+    console.log('- POST /api/send-email');
 });

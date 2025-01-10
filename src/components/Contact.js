@@ -11,9 +11,7 @@ function Contact() {
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(null);
 
-  const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'https://ozguruzden.com/api/send-email'
-    : 'http://localhost:3001/api/send-email';
+  const apiUrl = 'https://ozguruzden.com/api';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +20,7 @@ function Contact() {
 
     try {
       console.log('Sending email request...');
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`${apiUrl}/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +63,7 @@ function Contact() {
     try {
       // Test GET request
       console.log('Testing GET endpoint...');
-      const testResponse = await fetch(apiUrl.replace('/send-email', '/test'), {
+      const testResponse = await fetch(`${apiUrl}/test`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
