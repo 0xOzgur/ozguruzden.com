@@ -95,7 +95,7 @@ const PORT = process.env.PORT || 3001;
 
 // HTTPS configuration
 const options = {
-    key: fs.readFileSync('/etc/ssl//ozguruzden.com/privkey.key'),
+    key: fs.readFileSync('/etc/ssl/ozguruzden.com/private.key'),
     cert: fs.readFileSync('/etc/ssl/ozguruzden.com/fullchain.crt')
 };
 
