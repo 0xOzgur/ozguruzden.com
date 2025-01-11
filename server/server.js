@@ -2,15 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const https = require('https');
-const fs = require('fs');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com', 'http://localhost:3001'],
+    origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true
@@ -137,7 +135,7 @@ const options = {
 
 const server = https.createServer(options, app);
 
-server.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
     console.log('- GET /api');
