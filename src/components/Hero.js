@@ -89,16 +89,15 @@ function Hero() {
         <p className="hero-description" ref={descriptionRef}></p>
         <span className="cursor" ref={cursorRef}></span>
         <button 
-          ref={buttonRef} 
-          className="hero-button fade-out" 
-          onClick={handleButtonClick}
-        >
-          <span>Let's Meet</span>
-          <div className="button-ripple"></div>
-          <div className="button-arrow">
-            <i className="fas fa-arrow-right"></i>
-          </div>
-        </button>
+    ref={buttonRef} 
+    className="hero-button fade-out" 
+    onClick={handleButtonClick}
+>
+    <span>Let's Meet</span>
+    <div className="button-arrow">
+        <i className="fas fa-arrow-right"></i>
+    </div>
+</button>
       </div>
       <div className="hero-background">
         <div className="bg-circle"></div>

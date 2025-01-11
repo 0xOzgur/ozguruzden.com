@@ -63,7 +63,9 @@
 }
 
 .hero-button {
-  display: inline-block;
+  display: inline-flex; /* değişiklik: flex yapısı ekledik */
+  align-items: center; /* değişiklik: dikey hizalama */
+  justify-content: center; /* değişiklik: yatay hizalama */
   padding: 16px 32px;
   background-color: transparent;
   color: var(--highlight-blue);
@@ -77,6 +79,8 @@
   overflow: hidden;
   cursor: pointer;
   margin-top: 2rem;
+  min-width: 200px; /* değişiklik: minimum genişlik */
+  gap: 10px; /* değişiklik: içerikler arası boşluk */
 }
 
 .hero-button.fade-in {
@@ -115,15 +119,15 @@
 }
 
 .button-arrow {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative; /* değişiklik: absolute yerine relative */
+  display: flex; /* değişiklik: flex yapısı */
+  align-items: center; /* değişiklik: dikey hizalama */
+  margin-left: 8px; /* değişiklik: sol margin */
   transition: transform 0.3s ease;
 }
 
 .hero-button:hover .button-arrow {
-  transform: translateY(-50%) translateX(10px);
+  transform: translateX(5px); /* değişiklik: sadece X ekseninde hareket */
 }
 
 .button-arrow i {
@@ -201,7 +205,12 @@
   .hero-button {
     padding: 12px 24px;
     font-size: 1rem;
+    min-width: 180px;
   }
+
+  .button-arrow {
+    margin-left: 6px;
+}
 
   .bg-circle {
     width: 200px;
