@@ -2,14 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const fs = require('fs');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com', 'http://localhost:3001'],
+    origin: ['https://ozguruzden.com', 'https://www.ozguruzden.com'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true
@@ -63,12 +62,15 @@ app.post('/api/send-email', async (req, res) => {
 
         // Email transporter oluştur
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
             },
-            debug: true
+            debug: true,
+            logger: true
         });
 
         // Email içeriği
@@ -128,23 +130,10 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3001;
 
-// HTTPS configuration
-const options = {
-    key: fs.readFileSync('/etc/ssl/ozguruzden.com/private.key'),
-    cert: fs.readFileSync('/etc/ssl/ozguruzden.com/fullchain.crt')
-};
-
-const server = https.createServer(options, app);
-
-server.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
     console.log('- GET /api');
     console.log('- GET /api/test');
     console.log('- POST /api/send-email');
-});
-
-// Handle server errors
-server.on('error', (error) => {
-    console.error('Server error:', error);
 });
