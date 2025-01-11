@@ -55,9 +55,9 @@ function About() {
                         </div>
                         
                         <div className="main-content">
-                            <p>
-                            He's also the producer of <a href='https://www.orfion.com.tr' className="custom-link" target='blank'>Orfion Olive Oil</a>, a testament to his commitment to quality. 
-                            </p>
+                        <p>
+    He's also the producer of <a href='https://www.orfion.com.tr' className="custom-link" target='_blank' rel="noopener noreferrer">Orfion Olive Oil</a>, a testament to his commitment to quality. 
+</p>
                             
                             <p>
                             This dedication seamlessly translates into his web development work, where he crafts beautiful, functional websites with meticulous attention to detail.  

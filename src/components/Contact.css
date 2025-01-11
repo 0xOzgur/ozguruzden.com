@@ -1,14 +1,7 @@
-/* src/components/Contact.css */
-
+/* Contact.css */
 .contact-section {
-  padding: 80px 0;
   background-color: var(--primary-dark);
-}
-
-.contact-section h2 {
-  text-align: center;
-  margin-bottom: 40px;
-  color: var(--highlight-blue);
+  padding: 80px 0;
 }
 
 .contact-content {
@@ -17,7 +10,6 @@
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 80px; /* Footer'ın absence'ini telafi etmek için */
 }
 
 .contact-info {
@@ -28,8 +20,9 @@
 }
 
 .contact-info h3 {
-  margin-bottom: 20px;
   color: var(--highlight-blue);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .contact-info p {
@@ -44,81 +37,146 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 10px;
+.form-group {
   margin-bottom: 20px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
   border: 1px solid var(--primary-dark);
   border-radius: 5px;
-  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
-  background-color: var(--secondary-dark);
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.contact-form textarea {
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--highlight-blue);
+  box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+}
+
+.form-textarea {
   height: 150px;
-  resize: none;
+  resize: vertical;
 }
 
-.contact-form button {
-  display: block;
+.submit-button {
   width: 100%;
-  padding: 10px;
-  background-color: var(--highlight-blue);
-  color: var(--text-primary);
-  border: none;
+  padding: 12px;
+  background-color: transparent;
+  border: 2px solid var(--highlight-blue);
+  color: var(--highlight-blue);
   border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.contact-form button:hover {
-  background-color: rgba(100, 255, 218, 0.8);
+.submit-button:hover {
+  background-color: var(--highlight-blue);
+  color: var(--primary-dark);
 }
 
-.social-links a:hover {
-  color: var(--highlight-blue);
-  color: var(--highlight-blue);
+.submit-button.sending {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.message {
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.message.success {
+  background-color: rgba(52, 168, 90, 0.1);
+  color: #34A85A;
+}
+
+.message.error {
+  background-color: rgba(255, 68, 68, 0.1);
+  color: #ff4444;
 }
 
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 20px;
+  gap: 1.5rem;
+  margin-top: 30px;
 }
 
-.social-links a {
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.social-links i {
-  font-size: 1.5rem;
-}
-
-/* src/components/About.css */
-
-.interests-section {
-  background-color: var(--secondary-dark);
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-top: 1rem;
+.social-icon {
+  font-size: 2rem;
+  color: var(--text-secondary);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
 }
 
-.interests-section h3 {
-  text-align: center;
-  margin-bottom: 1rem;
+.social-icon:hover {
   color: var(--highlight-blue);
+  transform: translateY(-3px);
 }
 
-.interests-section:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  transform: translateY(-5px);
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .contact-info,
+  .contact-form {
+    padding: 20px;
+  }
+
+  .social-links {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .social-icon {
+    font-size: 1.75rem;
+  }
+
+  .submit-button {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .contact-content {
+    gap: 30px;
+    padding: 0 30px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-input,
+  .form-textarea {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media print {
+  .contact-form {
+    display: none;
+  }
+
+  .contact-info {
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .social-links {
+    display: none;
+  }
 }

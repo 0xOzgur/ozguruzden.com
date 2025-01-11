@@ -1,5 +1,4 @@
-/* src/components/Navbar.css */
-
+/* Navbar.css */
 .navbar {
   background-color: transparent;
   position: fixed;
@@ -87,6 +86,8 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+  z-index: 1001;
 }
 
 .menu-toggle span {
@@ -94,8 +95,9 @@
   width: 25px;
   height: 3px;
   background-color: var(--highlight-blue);
-  margin-bottom: 5px;
-  transition: transform 0.3s ease-in-out;
+  margin: 5px 0;
+  transition: all 0.3s ease-in-out;
+  transform-origin: center;
 }
 
 @media (max-width: 768px) {
@@ -103,21 +105,36 @@
     background-color: var(--primary-dark);
   }
 
+  .navbar-container {
+    padding: 1rem;
+  }
+
   .nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 70px;
     left: 0;
     width: 100%;
-    padding: 1rem;
     background-color: var(--primary-dark);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    transform: translateY(-100%);
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .nav-links.show {
-    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-link {
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
   }
 
   .menu-toggle {
@@ -134,5 +151,67 @@
 
   .menu-toggle.open span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .nav-logo {
+    font-size: 1.5rem;
+  }
+
+  .nav-link::before {
+    bottom: 5px;
+  }
+}
+
+/* Tablet ve küçük masaüstü için ek optimizasyonlar */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .navbar-container {
+    padding: 1rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-logo {
+    font-size: 1.6rem;
+  }
+}
+
+/* Büyük ekranlar için optimizasyonlar */
+@media (min-width: 1025px) {
+  .navbar-container {
+    padding: 1rem 2rem;
+  }
+
+  .nav-links {
+    gap: 2rem;
+  }
+
+  .nav-link:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Dark mode desteği */
+@media (prefers-color-scheme: dark) {
+  .navbar.scrolled {
+    background-color: rgba(26, 32, 44, 0.95);
+  }
+
+  .menu-toggle span {
+    background-color: var(--highlight-blue);
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar {
+    position: static;
+    background: none;
+    box-shadow: none;
+  }
+
+  .nav-links, .menu-toggle {
+    display: none;
   }
 }

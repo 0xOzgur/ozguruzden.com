@@ -1,12 +1,19 @@
 :root {
   /* Ana Tema Renkleri */
-  --primary-dark: #1A202C;    /* Arka plan için koyu lacivert */
-  --secondary-dark: #2D3748;  /* İkincil arka plan */
-  --highlight-blue: #34A85A;  /* Vurgu rengi - açık yeşil */
-  --text-primary: #F7FAFC;    /* Ana metin rengi - açık beyaz */
-  --text-secondary: #E2E8F0;  /* İkincil metin rengi */
-  --navy-shadow: rgba(2,12,27,0.7); /* Gölgeler için */
+  --primary-dark: #1A202C;    
+  --secondary-dark: #2D3748;  
+  --highlight-blue: #34A85A;  
+  --text-primary: #F7FAFC;    
+  --text-secondary: #E2E8F0;  
+  --navy-shadow: rgba(2,12,27,0.7);
+  
+  /* Breakpoints */
+  --mobile: 480px;
+  --tablet: 768px;
+  --desktop: 1024px;
+  --large-desktop: 1200px;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -30,7 +37,6 @@ section {
   padding: 80px 0;
 }
 
-/* Genel buton stilleri */
 .btn {
   padding: 12px 24px;
   border: 2px solid var(--highlight-blue);
@@ -51,35 +57,87 @@ h2 {
   color: var(--highlight-blue);
 }
 
-/* src/index.css */
-
-.scroll-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.scroll-to-top button {
-  background-color: var(--highlight-blue);
-  color: var(--primary-dark);
-  border: none;
-  padding: 10px 15px;
+/* Ortak form stilleri */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--primary-dark);
   border-radius: 5px;
   font-size: 16px;
-  transition: all 0.3s ease;
+  color: var(--text-primary);
+  background-color: var(--secondary-dark);
 }
 
-.scroll-to-top button:hover {
-  background-color: var(--text-primary);
+.form-textarea {
+  height: 150px;
+  resize: none;
+}
+
+/* Ortak sosyal medya linkleri stili */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.social-links a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
   color: var(--highlight-blue);
 }
 
-.scroll-to-top i {
-  font-size: 20px;
+.social-icon {
+  font-size: 1.5rem;
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.slide-up {
+  animation: slideInUp 0.5s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  section {
+    padding: 40px 0;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
 }

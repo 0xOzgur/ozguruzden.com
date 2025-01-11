@@ -59,7 +59,6 @@ function Contact() {
     }
   };
 
-
   return (
     <section id="contact" className="contact-section">
       <div className="container">
@@ -70,55 +69,71 @@ function Contact() {
             <p>Email: ozgur@orfion.com.tr</p>
             <p>Phone: +90 555 879 09 56</p>
             <p>Address: Ayvalık, Türkiye</p>
-            {success && <p className="message">{success}</p>}
+            {success && <p className={`message ${success.includes('başarıyla') ? 'success' : 'error'}`}>{success}</p>}
             <h3>Social Media</h3>
             <div className="social-links">
               <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faTwitter} size="3x" />
+                <FontAwesomeIcon icon={faTwitter} size="3x" className="social-icon" />
               </a>
               <a href="https://www.linkedin.com/in/ozguruzden/" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faLinkedin} size="3x" />
+                <FontAwesomeIcon icon={faLinkedin} size="3x" className="social-icon" />
               </a>
               <a href="https://github.com/0xOzgur" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faGithub} size="3x" />
+                <FontAwesomeIcon icon={faGithub} size="3x" className="social-icon" />
               </a>
               <a href="https://www.instagram.com/ozgurzdn/" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faInstagram} size="3x" />
+                <FontAwesomeIcon icon={faInstagram} size="3x" className="social-icon" />
               </a>
               <a href="https://medium.com/@ozgur.uzden" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faMedium} size="3x" />
+                <FontAwesomeIcon icon={faMedium} size="3x" className="social-icon" />
               </a>
             </div>
           </div>
           <form className="contact-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input
-              type="email"
-              placeholder="E-Mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              required
-            />
-            <textarea
-              placeholder="Your Message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            ></textarea>
-            <button type="submit" disabled={sending}>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="E-Mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                placeholder="Your Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                className="form-textarea"
+              ></textarea>
+            </div>
+            <button 
+              type="submit" 
+              disabled={sending}
+              className={`submit-button ${sending ? 'sending' : ''}`}
+            >
               {sending ? 'Gönderiliyor...' : 'Gönder'}
             </button>
           </form>

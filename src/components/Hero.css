@@ -62,9 +62,6 @@
   100% { opacity: 1; }
 }
 
-/* Hero.css */
-/* ... diğer stiller ... */
-
 .hero-button {
   display: inline-block;
   padding: 16px 32px;
@@ -73,7 +70,7 @@
   text-decoration: none;
   border: 2px solid var(--highlight-blue);
   border-radius: 50px;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
   font-weight: bold;
   font-size: 1.1rem;
   position: relative;
@@ -174,45 +171,40 @@
 
 @keyframes float {
   0%, 100% {
-      transform: translateY(0);
+    transform: translateY(0);
   }
   50% {
-      transform: translateY(-20%);
+    transform: translateY(-20%);
   }
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .hero {
-      padding-top: 60px;
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 0 50px;
   }
 
   .hero-subtitle {
-      font-size: 3rem;
+    font-size: 2.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
   }
 
   .hero-description {
-    font-size: 1.2rem;
-    margin-bottom: 4rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  
-  .hero-description.fade-in {
-    opacity: 1;
+    font-size: 1rem;
+    padding: 0 20px;
   }
 
   .hero-button {
-      padding: 12px 24px;
-      font-size: 1rem;
+    padding: 12px 24px;
+    font-size: 1rem;
   }
 
   .bg-circle {
-      width: 200px;
-      height: 200px;
+    width: 200px;
+    height: 200px;
   }
 }

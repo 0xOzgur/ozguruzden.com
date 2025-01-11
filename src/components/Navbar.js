@@ -1,5 +1,3 @@
-// src/components/Navbar.js
-
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
@@ -22,6 +20,7 @@ function Navbar() {
         behavior: 'smooth',
         block: 'start',
       });
+      setMenuOpen(false); // Menüye tıklandığında mobil menüyü kapat
     }
   };
 
@@ -40,56 +39,78 @@ function Navbar() {
 
   useEffect(() => {
     const handleRouteChange = () => {
-      const currentPath = window.location.pathname;
-      const links = document.querySelectorAll('.nav-link');
-      links.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-          setActiveLink(link.textContent);
+      const sections = ['hero', 'about', 'projects', 'contact'];
+      const scrollPosition = window.scrollY;
+
+      sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop - 100 && 
+              scrollPosition < offsetTop + offsetHeight - 100) {
+            setActiveLink(section);
+          }
         }
       });
     };
 
-    window.addEventListener('popstate', handleRouteChange);
-
-    // Sayfa ilk yüklendiğinde çalışacak
-    handleRouteChange();
-
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-    };
+    window.addEventListener('scroll', handleRouteChange);
+    return () => window.removeEventListener('scroll', handleRouteChange);
   }, []);
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        <a href="#about" className="nav-logo" onClick={handleClick}>Özgür Üzden </a>
-        <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
-          <li>
-            <a href="#hero" className={`nav-link ${activeLink === 'Home' ? 'active' : ''}`} onClick={handleClick}>
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#about" className={`nav-link ${activeLink === 'About Me' ? 'active' : ''}`} onClick={handleClick}>
-              About Me
-            </a>
-          </li>
-          <li>
-            <a href="#projects" className={`nav-link ${activeLink === 'My Projects' ? 'active' : ''}`} onClick={handleClick}>
-              My Projects
-            </a>
-          </li>
-          <li>
-            <a href="#contact" className={`nav-link ${activeLink === 'Contact' ? 'active' : ''}`} onClick={handleClick}>
-              Contact
-            </a>
-          </li>
-        </ul>
-        <button className={`menu-toggle ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+        <a href="#hero" className="nav-logo" onClick={handleClick}>
+          Özgür Üzden
+        </a>
+        <button 
+          className={`menu-toggle ${menuOpen ? 'open' : ''}`} 
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
           <span></span>
           <span></span>
           <span></span>
         </button>
+        <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
+          <li>
+            <a 
+              href="#hero" 
+              className={`nav-link ${activeLink === 'hero' ? 'active' : ''}`} 
+              onClick={handleClick}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#about" 
+              className={`nav-link ${activeLink === 'about' ? 'active' : ''}`} 
+              onClick={handleClick}
+            >
+              About Me
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#projects" 
+              className={`nav-link ${activeLink === 'projects' ? 'active' : ''}`} 
+              onClick={handleClick}
+            >
+              My Projects
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#contact" 
+              className={`nav-link ${activeLink === 'contact' ? 'active' : ''}`} 
+              onClick={handleClick}
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   );
