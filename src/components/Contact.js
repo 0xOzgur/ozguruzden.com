@@ -43,17 +43,17 @@ function Contact() {
       console.log('Response data:', result);
 
       if (result.success) {
-        setSuccess('Mesajınız başarıyla gönderildi!');
+        setSuccess('Your message has been sent successfully!');
         setName('');
         setEmail('');
         setSubject('');
         setMessage('');
       } else {
-        throw new Error(result.message || 'Bilinmeyen bir hata oluştu.');
+        throw new Error(result.message || 'An unknown error occurred.');
       }
     } catch (error) {
       console.error('Error details:', error);
-      setSuccess(error.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+      setSuccess(error.message || 'An error occurred. Please try again.');
     } finally {
       setSending(false);
     }
@@ -68,8 +68,8 @@ function Contact() {
             <h3>Contact Me</h3>
             <p>Email: ozgur@orfion.com.tr</p>
             <p>Phone: +90 555 879 09 56</p>
-            <p>Address: Ayvalık, Türkiye</p>
-            {success && <p className={`message ${success.includes('başarıyla') ? 'success' : 'error'}`}>{success}</p>}
+            <p>Address: Ayvalık, Turkey</p>
+            {success && <p className={`message ${success.includes('successfully') ? 'success' : 'error'}`}>{success}</p>}
             <h3>Social Media</h3>
             <div className="social-links">
               <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
@@ -134,7 +134,7 @@ function Contact() {
               disabled={sending}
               className={`submit-button ${sending ? 'sending' : ''}`}
             >
-              {sending ? 'Gönderiliyor...' : 'Gönder'}
+              {sending ? 'Sending...' : 'Send'}
             </button>
           </form>
         </div>
