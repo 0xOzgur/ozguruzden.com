@@ -73,7 +73,7 @@ app.post('/api/send-email', async (req, res) => {
         
         // Yanıt gönderilmeden önce log
         console.log('Sending response:', { success: true, message: 'Email başarıyla gönderildi!' });
-        res.json({ success: true, message: 'Email başarıyla gönderildi!' });
+        res.status(200).json({ success: true, message: 'Email başarıyla gönderildi!' });
     } catch (error) {
         console.error('Error sending email:', error);
         
