@@ -64,7 +64,7 @@ function About() {
                             </p>
                             
                             <p>
-                            Beyond the digital and the olive grove, Özgür is a fan of Blockchain technologies, a devoted family man who enjoys photography and playing the saxophone. He brings a unique blend of technical prowess and creative passion to every project.
+                            Beyond the digital and the olive grove, Özgür is a fan of Blockchain technologies, a devoted dad for his doughter, enjoys photography and playing the saxophone. He brings a unique blend of technical prowess and creative passion to every project.
                             </p>
                         </div>
                         
