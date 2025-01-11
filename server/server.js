@@ -91,7 +91,7 @@ app.post('/api/send-email', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 3001;
 
 // HTTPS configuration
 const options = {
