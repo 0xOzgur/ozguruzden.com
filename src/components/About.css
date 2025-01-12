@@ -84,7 +84,7 @@
 }
 
 .main-content p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--text-secondary);
   line-height: 1.8;
 }
