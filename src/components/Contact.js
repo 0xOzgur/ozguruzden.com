@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub, faInstagram, faTwitter, faMedium } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin, faGithub, faInstagram, faTwitter, faMedium, faTelegram } from '@fortawesome/free-brands-svg-icons';
 
 function Contact() {
   const [name, setName] = useState('');
@@ -72,6 +72,9 @@ function Contact() {
             {success && <p className={`message ${success.includes('successfully') ? 'success' : 'error'}`}>{success}</p>}
             <h3>Social Media</h3>
             <div className="social-links">
+            <a href="https://telegram.me/OxOzgur" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faTelegram} size="3x" className="social-icon" />
+              </a>
               <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faTwitter} size="3x" className="social-icon" />
               </a>
