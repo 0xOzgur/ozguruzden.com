@@ -95,7 +95,7 @@ function Hero() {
 >
     <span>Let's Meet</span>
     <div className="button-arrow">
-        <i className="fas fa-arrow-right"></i>
+        <i className="fas fa-arrow-down"></i>
     </div>
 </button>
       </div>

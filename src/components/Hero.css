@@ -126,13 +126,11 @@
   transition: transform 0.3s ease;
 }
 
-.hero-button:hover .button-arrow {
-  transform: translateX(5px); /* değişiklik: sadece X ekseninde hareket */
-}
+
 
 .button-arrow i {
   font-size: 1.2rem;
-  color: var(--primary-dark);
+  color: currentColor;
 }
 
 .hero-background {
