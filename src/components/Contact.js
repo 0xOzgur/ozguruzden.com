@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub, faInstagram, faTwitter, faMedium, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin, faGithub, faInstagram, faTwitter, faMedium, faTelegram, faUpwork } from '@fortawesome/free-brands-svg-icons';
 
 function Contact() {
   const [name, setName] = useState('');
@@ -70,27 +70,32 @@ function Contact() {
             <p>Phone: +90 555 879 09 56</p>
             <p>Address: Ayvalık, Turkey</p>
             {success && <p className={`message ${success.includes('successfully') ? 'success' : 'error'}`}>{success}</p>}
-            <h3>Social Media</h3>
+            &nbsp;
+            <h3>Social Profiles</h3>
+            You can contact me via my social profile links below:
             <div className="social-links">
-            <a href="https://telegram.me/OxOzgur" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faTelegram} size="3x" className="social-icon" />
-              </a>
-              <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faTwitter} size="3x" className="social-icon" />
-              </a>
-              <a href="https://www.linkedin.com/in/ozguruzden/" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faLinkedin} size="3x" className="social-icon" />
-              </a>
-              <a href="https://github.com/0xOzgur" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faGithub} size="3x" className="social-icon" />
-              </a>
-              <a href="https://www.instagram.com/ozgurzdn/" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faInstagram} size="3x" className="social-icon" />
-              </a>
-              <a href="https://medium.com/@ozgur.uzden" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faMedium} size="3x" className="social-icon" />
-              </a>
-            </div>
+  <a href="https://telegram.me/OxOzgur" target="_blank" rel="noopener noreferrer" data-tooltip="Telegram">
+    <FontAwesomeIcon icon={faTelegram} size="3x" className="social-icon" />
+  </a>
+  <a href="https://x.com/ozguruzden" target="_blank" rel="noopener noreferrer" data-tooltip="Twitter">
+    <FontAwesomeIcon icon={faTwitter} size="3x" className="social-icon" />
+  </a>
+  <a href="https://www.linkedin.com/in/ozguruzden/" target="_blank" rel="noopener noreferrer" data-tooltip="LinkedIn">
+    <FontAwesomeIcon icon={faLinkedin} size="3x" className="social-icon" />
+  </a>
+  <a href="https://github.com/0xOzgur" target="_blank" rel="noopener noreferrer" data-tooltip="GitHub">
+    <FontAwesomeIcon icon={faGithub} size="3x" className="social-icon" />
+  </a>
+  <a href="https://www.instagram.com/ozgurzdn/" target="_blank" rel="noopener noreferrer" data-tooltip="Instagram">
+    <FontAwesomeIcon icon={faInstagram} size="3x" className="social-icon" />
+  </a>
+  <a href="https://medium.com/@ozgur.uzden" target="_blank" rel="noopener noreferrer" data-tooltip="Medium">
+    <FontAwesomeIcon icon={faMedium} size="3x" className="social-icon" />
+  </a>
+  <a href="https://www.upwork.com/freelancers/ozguruzden" target="_blank" rel="noopener noreferrer" data-tooltip="Upwork">
+    <FontAwesomeIcon icon={faUpwork} size="3x" className="social-icon" />
+  </a>
+</div>
           </div>
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
