@@ -72,11 +72,11 @@ function About() {
                         
                         <div className="main-content">
                             <p>
-                                I produce <a href='https://www.orfion.com.tr' className="custom-link" target='_blank' rel="noopener noreferrer">Orfion Olive Oil</a> which shows how much I care about quality.
+                            I’m passionate about coding and producing <a href='https://www.orfion.com.tr' className="custom-link" target='_blank' rel="noopener noreferrer">Orfion Olive Oil</a>- both show how much I care about quality.
                             </p>
                             
                             <p>
-                                This same dedication is what I bring to my web development projects. I love creating websites that are not only beautiful but also work really well.
+                            I bring this same passion to web development, designing projects that are as beautiful to look at as they are seamless to use.
                             </p>
                             
                             <p>
