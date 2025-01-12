@@ -3,6 +3,7 @@
   --primary-dark: #1A202C;    
   --secondary-dark: #2D3748;  
   --highlight-blue: #34A85A;  
+  --highlight-blue-rgb: 100, 255, 218; /* Mevcut highlight-blue renginin RGB değerleri */
   --text-primary: #F7FAFC;    
   --text-secondary: #E2E8F0;  
   --navy-shadow: rgba(2,12,27,0.7);

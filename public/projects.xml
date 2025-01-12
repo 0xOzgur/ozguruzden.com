@@ -4,8 +4,8 @@
     <id>1</id>
     <title>Orfion Olive Oil</title>
     <description>My personal Business website built with Wordpress and woocommerce e-commerce system.</description>
-    <image>img/orfion.jpg</image>
-    <hoverImage>img/orfion2.png</hoverImage>
+    <image>img/portfolio/orfion.jpg</image>
+    <hoverImage>img/portfolio/orfion2.png</hoverImage>
     <link>https://www.orfion.com.tr</link>
     <github>https://github.com/0xOzgur</github>
     <tags>
@@ -20,8 +20,8 @@
     <id>2</id>
     <title>Personal Website</title>
     <description>My personal website built with React and styled-components.</description>
-    <image>img/ou.jpg</image>
-    <hoverImage>img/ou2.jpg</hoverImage>
+    <image>img/portfolio/ou.jpg</image>
+    <hoverImage>img/portfolio/ou2.jpg</hoverImage>
     <link>https://www.ozguruzden.com</link>
     <github>https://github.com/yourusername/personal-website</github>
     <tags>
@@ -35,8 +35,8 @@
     <id>3</id>
     <title>Quilibrium Space</title>
     <description>Quilibrium Documentation and Support Site.</description>
-    <image>img/quilibrium1.jpg</image>
-    <hoverImage>img/quilibrium2.jpg</hoverImage>
+    <image>img/portfolio/quilibrium1.jpg</image>
+    <hoverImage>img/portfolio/quilibrium2.jpg</hoverImage>
     <link>https://quilibrium.space/</link>
     <github>https://github.com/0xOzgur/quilibrium-space</github>
     <tags>
@@ -50,8 +50,8 @@
     <id>4</id>
     <title>Quilibrium Tools</title>
     <description>A Bash script for Quilibrium Node runners that serve many basic tools.</description>
-    <image>img/qdummies.png</image>
-    <hoverImage>img/qdummies.png</hoverImage>
+    <image>img/portfolio/qdummies.png</image>
+    <hoverImage>img/portfolio/qdummies.png</hoverImage>
     <link>https://github.com/0xOzgur/QuilibriumTools</link>
     <github>https://github.com/0xOzgur/QuilibriumTools</github>
     <tags>
@@ -59,6 +59,36 @@
       <tag>Go</tag>
       <tag>gRPC</tag>
       <tag>Linux</tag>
+    </tags>
+  </project>
+
+    <project>
+    <id>5</id>
+    <title>Tarhala Olive Oil</title>
+    <description>Web Site of Tarhala Olive Oil is brand that produce oils in both Turkiye and Greece.</description>
+    <image>img/portfolio/tarhala1.jpg</image>
+    <hoverImage>img/portfolio/tarhala2.jpg</hoverImage>
+    <link>https://www.tarhalazeytinyaglari.com/</link>
+    <github>https://github.com/0xOzgur</github>
+    <tags>
+      <tag>Wordpress</tag>
+      <tag>Woocommerce</tag>
+      <tag>Payment Gateway</tag>
+    </tags>
+  </project>
+
+      <project>
+    <id>6</id>
+    <title>Anatolian Evoo Selection</title>
+    <description>Anatolian EVOO Selection offers premium extra virgin olive oils from diverse Anatolian olives.</description>
+    <image>img/portfolio/anatolian1.jpg</image>
+    <hoverImage>img/portfolio/anatolian3.jpg</hoverImage>
+    <link>https://www.anatolianevooselection.org</link>
+    <github>https://github.com/0xOzgur</github>
+    <tags>
+      <tag>Wordpress</tag>
+      <tag>Styled Components</tag>
+      <tag>Responsive Design</tag>
     </tags>
   </project>
 </projects>

@@ -36,45 +36,30 @@
 
 .project-card {
   background-color: var(--secondary-light);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  
-  .project-image {
-    opacity: 0;
-  }
-  
-  .hover-image {
-    opacity: 1;
-  }
-  
-  h3 {
-    color: var(--highlight-blue);
-  }
-  
-  .tag {
-    background-color: rgba(100, 255, 218, 0.5);
-  }
-  
-  .view-github {
-    background-color: rgba(100, 255, 218, 0.5);
-  }
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .image-container {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 16/9;
 }
 
 .project-image, .hover-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   transition: opacity 0.3s ease;
 }
@@ -86,13 +71,25 @@
   opacity: 0;
 }
 
+.project-card:hover .project-image {
+  opacity: 0;
+}
+
+.project-card:hover .hover-image {
+  opacity: 1;
+}
+
 .project-info {
   padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .project-info h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
   color: var(--text-primary);
   transition: color 0.3s ease;
 }
@@ -100,50 +97,149 @@
 .project-info p {
   color: var(--text-secondary);
   margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .tag {
-  background-color: var(--highlight-blue);
-  color: white;
-  padding: 0.2rem 0.5rem;
+  background-color: rgba(var(--highlight-blue-rgb), 0.1);
+  color: var(--highlight-blue);
+  padding: 0.4rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.8rem;
-  transition: background-color 0.3s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .tag {
+  background-color: var(--highlight-blue);
+  color: var(--secondary-light);
+  font-weight: 600;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
 }
 
 .view-project, .view-github {
   text-decoration: none;
-  color: var(--highlight-blue);
-  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  flex: 1;
 }
 
-.view-project:hover, .view-github:hover {
-  color: var(--text-primary);
+.view-project {
+  background-color: var(--highlight-blue);
+  color: white;
+  border: 2px solid var(--highlight-blue);
+}
+
+.view-project:hover {
+  background-color: transparent;
+  color: var(--highlight-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .view-github {
+  background-color: transparent;
+  color: var(--highlight-blue);
+  border: 2px solid var(--highlight-blue);
+}
+
+.view-github:hover {
   background-color: var(--highlight-blue);
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  transition: background-color 0.3s ease;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  .projects-title {
+    font-size: 2.2rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .project-card {
+  .container {
+    max-width: 540px;
+  }
+  
+  .projects-title {
+    font-size: 2rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .project-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .view-project, .view-github {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .projects-section {
+    padding: 60px 0;
+  }
+  
+  .projects-title {
+    font-size: 1.8rem;
     margin-bottom: 2rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  
+  .project-info {
+    padding: 1.2rem;
+  }
+  
+  .tags {
+    gap: 0.4rem;
+  }
+  
+  .tag {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
   }
 }
