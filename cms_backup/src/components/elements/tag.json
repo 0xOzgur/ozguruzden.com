@@ -1,0 +1,14 @@
+{
+    "collectionName": "components_elements_tags",
+    "info": {
+      "displayName": "Tag",
+      "description": "Tag component for projects"
+    },
+    "options": {},
+    "attributes": {
+      "name": {
+        "type": "string",
+        "required": true
+      }
+    }
+  }

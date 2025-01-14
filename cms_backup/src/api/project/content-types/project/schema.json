@@ -1,0 +1,48 @@
+{
+    "kind": "collectionType",
+    "collectionName": "projects",
+    "info": {
+      "singularName": "project",
+      "pluralName": "projects",
+      "displayName": "Project",
+      "description": "Projects collection type"
+    },
+    "options": {
+      "draftAndPublish": true
+    },
+    "attributes": {
+      "title": {
+        "type": "string",
+        "required": true
+      },
+      "description": {
+        "type": "text",
+        "required": true
+      },
+      "image": {
+        "type": "media",
+        "multiple": false,
+        "required": true,
+        "allowedTypes": ["images"]
+      },
+      "hoverImage": {
+        "type": "media",
+        "multiple": false,
+        "required": true,
+        "allowedTypes": ["images"]
+      },
+      "link": {
+        "type": "string",
+        "required": true
+      },
+      "github": {
+        "type": "string",
+        "required": true
+      },
+      "tags": {
+        "type": "component",
+        "repeatable": true,
+        "component": "elements.tag"
+      }
+    }
+  }
