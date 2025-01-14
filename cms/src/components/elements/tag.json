@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_elements_tags",
+  "info": {
+    "displayName": "Tag",
+    "icon": "attachment"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
