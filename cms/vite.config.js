@@ -8,6 +8,7 @@ export default defineConfig({
       '/api': {
         target: 'https://ozguruzden.com:1337',
         changeOrigin: true,
+        secure: true,
       },
     },
   },

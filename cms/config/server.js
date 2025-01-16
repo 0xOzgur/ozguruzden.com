@@ -1,5 +1,3 @@
-// config/server.ts
-
 import fs from 'fs';
 
 export default ({ env }) => ({
@@ -11,8 +9,6 @@ export default ({ env }) => ({
       secret: env('ADMIN_JWT_SECRET'),
     },
   },
-
-  keys: ['S+K+1w+/Z2CDt86JoihW9w==', '7ojVQmdEMocV/JOhC9R+ag=='],
   // HTTPS ayarları
   https: {
     key: fs.readFileSync('/etc/ssl/ozguruzden.com/private.key'),

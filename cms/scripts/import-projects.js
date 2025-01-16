@@ -4,7 +4,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const path = require('path');
 
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'https://ozguruzden.com:1337';
 const XML_PATH = '../../public/projects.xml';
 const IMAGES_PATH = '../../public';
 

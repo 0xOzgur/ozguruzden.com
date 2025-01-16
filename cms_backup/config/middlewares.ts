@@ -19,7 +19,7 @@ module.exports = [
     config: {
       enabled: true,
       headers: '*',
-      origin: ['http://localhost:3000', 'http://localhost:1337']
+      origin: ['https://ozguruzden.com:1337', 'https://ozguruzden.com:1337']
     }
   },
   'strapi::poweredBy',
