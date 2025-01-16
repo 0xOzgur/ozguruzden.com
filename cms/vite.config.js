@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://ozguruzden.com:1337',
+        target: 'https://ozguruzden.com:1337',
         changeOrigin: true,
       },
     },
