@@ -1,4 +1,6 @@
-module.exports = [
+// config/middlewares.ts
+
+export default [
   'strapi::errors',
   {
     name: 'strapi::security',
@@ -10,7 +12,7 @@ module.exports = [
     name: 'strapi::cors',
     config: {
       enabled: true,
-      origin: ['http://localhost:3000'],
+      origin: ['*'],
       headers: ['*'],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       credentials: true,
@@ -20,7 +22,6 @@ module.exports = [
   'strapi::logger',
   'strapi::query',
   'strapi::body',
-  'strapi::session',
   'strapi::favicon',
   'strapi::public',
 ];
