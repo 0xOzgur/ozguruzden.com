@@ -12,8 +12,10 @@ function Projects() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      //const response = await axios.get(`${STRAPI_URL}/api/projects?populate=*&sort=order:asc`);
-      const response = await axios.get('http://localhost:1337/api/projects');
+      const response = await axios.get('http://localhost:1337/api/projects?populate=*&sort=order:asc', {
+        withCredentials: true,
+      });
+      //const response = await axios.get('http://localhost:1337/api/projects');
       
     const projectsData = response.data.data.map(item => {
       const description = item.description?.[0]?.children?.[0]?.text || '';

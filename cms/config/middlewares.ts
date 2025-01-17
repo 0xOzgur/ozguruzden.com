@@ -1,5 +1,3 @@
-// config/middlewares.ts
-
 export default [
   'strapi::errors',
   {
@@ -12,8 +10,8 @@ export default [
     name: 'strapi::cors',
     config: {
       enabled: true,
-      origin: ['*'],
-      headers: ['*'],
+      origin: ['http://localhost:3000'],
+      headers: '*',
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       credentials: true,
     },
