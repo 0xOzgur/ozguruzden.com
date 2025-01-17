@@ -4,6 +4,9 @@ export default [
     name: 'strapi::cors',
     config: {
       enabled: true,
+      headers: '*',
+      origin: ['https://ozguruzden.com:1337', 'https://ozguruzden.com:1337']
+    }
       origin: ['*'], // Allow all origins for now
       headers: ['*'],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
@@ -15,9 +18,5 @@ export default [
   'strapi::body',
   'strapi::favicon',
   'strapi::public',
-
-  {
-    resolve: './src/middlewares/custom-cors.js',
-  },
 
 ];

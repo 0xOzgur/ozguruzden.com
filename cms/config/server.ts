@@ -11,7 +11,7 @@ export default ({ env }) => ({
   },
   // HTTPS ayarları
   https: {
-    key: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/fullchain.pem'),
+   key: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/fullchain.pem'),
    cert: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/privkey.pem'),
   },
 });

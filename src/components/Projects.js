@@ -8,7 +8,7 @@ function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || 'http://localhost:1337';
+  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || 'https://ozguruzden.com:1337';
 
   const fetchProjects = useCallback(async () => {
     try {
