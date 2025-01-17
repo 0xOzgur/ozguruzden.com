@@ -1,5 +1,3 @@
-// config/server.ts
-
 import fs from 'fs';
 
 export default ({ env }) => ({
@@ -13,7 +11,7 @@ export default ({ env }) => ({
   },
   // HTTPS ayarları
   https: {
-    key: fs.readFileSync('/etc/ssl/ozguruzden.com/private.key'),
-    cert: fs.readFileSync('/etc/ssl/ozguruzden.com/fullchain.crt'),
+    key: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/fullchain.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/ozguruzden.com/privkey.pem'),
   },
 });
