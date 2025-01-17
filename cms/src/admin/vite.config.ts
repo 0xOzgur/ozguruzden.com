@@ -1,17 +1,12 @@
-import {mergeConfig, type UserConfig} from "vite";
+import { mergeConfig, type UserConfig } from 'vite';
 
 export default (config: UserConfig) => {
-    return mergeConfig(config, {
-        server: {
-            fs: {
-                allow: [
-                    "/opt/node_modules",
-                    "/opt/app",
-                ],
-            },
-        },
-        alias: {
-            "@": "/src",
-        },
-    });
+  // Important: always return the modified config
+  return mergeConfig(config, {
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
+  });
 };
