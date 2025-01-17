@@ -12,7 +12,7 @@ export default [
     name: 'strapi::cors',
     config: {
       enabled: true,
-      origin: ['http://localhost:3000', 'https://ozguruzden.com:1337'],
+      origin: ['*'],
       headers: ['*'],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       credentials: true,
