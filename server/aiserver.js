@@ -18,7 +18,7 @@ const apiLimiter = rateLimit({
     max: 50 // Her IP için 15 dakikada maksimum 50 istek
 });
 
-app.use('/api/', apiLimiter);
+app.use('/ai-api/', apiLimiter);
 
 // Caching
 const responseCache = new NodeCache({ stdTTL: 3600 }); // 1 saat cache süresi
@@ -52,7 +52,7 @@ const getFallbackResponse = (message) => {
 };
 
 // Ana chat endpoint'i
-app.post('/api/chat', async (req, res) => {
+app.post('/ai-api/chat', async (req, res) => {
     try {
         const { message, chatHistory } = req.body;
         console.log('\n=== New Message ===');
@@ -139,7 +139,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Feedback endpoint'i
-app.post('/api/feedback', async (req, res) => {
+app.post('/ai-api/feedback', async (req, res) => {
     try {
         const { messageId, feedback } = req.body;
         
@@ -165,7 +165,7 @@ app.post('/api/feedback', async (req, res) => {
 });
 
 // Sağlık kontrolü endpoint'i
-app.get('/api/health', (req, res) => {
+app.get('/ai-api/health', (req, res) => {
     res.json({ 
         status: 'healthy',
         timestamp: new Date().toISOString(),
@@ -174,7 +174,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Metrics endpoint'i (basit kullanım istatistikleri)
-app.get('/api/metrics', (req, res) => {
+app.get('/ai-api/metrics', (req, res) => {
     res.json({
         totalConversations: messageHistory.size,
         cacheSize: responseCache.getStats().keys,
