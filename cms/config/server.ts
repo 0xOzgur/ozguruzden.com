@@ -6,11 +6,12 @@ export default ({ env }) => ({
     auth: {
       secret: env('ADMIN_JWT_SECRET'),
     },
-    url: '/admin', // Admin paneli URL'si
+    url: '/admin',
     autoOpen: false,
     watchIgnoreFiles: [
       '**/config/sync/**',
     ],
+    serveAdminPanel: true,
   },
   app: {
     keys: env.array('APP_KEYS'),
