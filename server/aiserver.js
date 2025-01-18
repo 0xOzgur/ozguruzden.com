@@ -1,7 +1,6 @@
 // server/aiserver.js
 const express = require('express');
 const cors = require('cors');
-const responseDatabase = require('./responses');
 const { generateOpenAIResponse } = require('./openai');
 const rateLimit = require('express-rate-limit');
 const NodeCache = require('node-cache');
@@ -9,6 +8,9 @@ const learningSystem = require('./learning');
 require('dotenv').config();
 
 const app = express();
+
+// Trust proxy ayarı (Nginx arkasında çalıştığı için)
+app.set('trust proxy', 1);
 
 // CORS options
 const corsOptions = {
@@ -25,31 +27,14 @@ const corsOptions = {
 
 // CORS middleware'ini options ile kullanın
 app.use(cors(corsOptions));
-
-// Manuel CORS başlıkları
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (corsOptions.origin.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    
-    // OPTIONS request için hızlı yanıt
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-    
-    next();
-});
-
 app.use(express.json());
 
 // Rate limiting
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 dakika
-    max: 50 // Her IP için 15 dakikada maksimum 50 istek
+    max: 50, // Her IP için 15 dakikada maksimum 50 istek
+    standardHeaders: true,
+    legacyHeaders: false
 });
 
 app.use('/ai-api/', apiLimiter);
@@ -60,6 +45,29 @@ const responseCache = new NodeCache({ stdTTL: 3600 }); // 1 saat cache süresi
 // Mesaj geçmişi
 const messageHistory = new Map();
 
+// Varsayılan yanıtlar
+const defaultResponses = {
+    greeting: {
+        keywords: ['hello', 'hi', 'hey', 'merhaba', 'selam'],
+        en: "Hello! I'm Ozgur's AI assistant. How can I help you today?",
+        tr: "Merhaba! Ben Özgür'ün AI asistanıyım. Size nasıl yardımcı olabilirim?"
+    },
+    contact: {
+        keywords: ['contact', 'email', 'reach', 'iletişim', 'mail', 'ulaş'],
+        en: "You can contact Ozgur via email at 0xOzgurx@gmail.com or check out his GitHub profile at github.com/ozguruzden",
+        tr: "Özgür'e 0xOzgurx@gmail.com adresinden ulaşabilir veya github.com/ozguruzden adresinden GitHub profilini inceleyebilirsiniz"
+    },
+    skills: {
+        keywords: ['skills', 'experience', 'work', 'deneyim', 'tecrübe', 'yetenek'],
+        en: "Ozgur is a Full Stack Developer with expertise in React.js, Node.js, Express, MongoDB, and MySQL. He's currently based in Ayvalık.",
+        tr: "Özgür, React.js, Node.js, Express, MongoDB ve MySQL konularında uzman bir Full Stack Developer'dır. Şu anda Ayvalık'ta yaşamaktadır."
+    },
+    default: {
+        en: "I apologize, but I'm currently experiencing some technical difficulties. Please try asking about Ozgur's contact information or his work.",
+        tr: "Özür dilerim, şu anda teknik bir sorun yaşıyorum. Lütfen Özgür'ün iletişim bilgileri veya çalışmaları hakkında soru sormayı deneyin."
+    }
+};
+
 // Dil algılama fonksiyonu
 const detectLanguage = (text) => {
     const turkishChars = 'ğüşıöçĞÜŞİÖÇ';
@@ -69,25 +77,25 @@ const detectLanguage = (text) => {
 // Fallback yanıt oluşturma
 const getFallbackResponse = (message) => {
     if (!message) {
-        return responseDatabase.default.en;
+        return defaultResponses.default.en;
     }
     
     const lang = detectLanguage(message);
     const lowercaseMessage = message.toLowerCase();
     
     // Try to find a matching category
-    for (const category in responseDatabase) {
+    for (const category in defaultResponses) {
         if (category === 'default') continue;
         
-        const categoryData = responseDatabase[category];
+        const categoryData = defaultResponses[category];
         if (categoryData.keywords && 
             categoryData.keywords.some(keyword => lowercaseMessage.includes(keyword.toLowerCase()))) {
-            return categoryData[lang] || categoryData['en']; // Fallback to English if translation not available
+            return categoryData[lang] || categoryData['en'];
         }
     }
     
     // Return default response if no match found
-    return responseDatabase.default[lang] || responseDatabase.default['en'];
+    return defaultResponses.default[lang] || defaultResponses.default['en'];
 };
 
 // Ana chat endpoint'i
@@ -165,16 +173,7 @@ app.post('/ai-api/chat', async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         const lang = detectLanguage(req.body.message || '');
-        
-        // First try to get a relevant response based on keywords
-        let errorResponse = getFallbackResponse(req.body.message || '');
-        
-        // If that fails, use a default error message
-        if (!errorResponse) {
-            errorResponse = lang === 'tr' 
-                ? "Şu anda teknik bir sorun yaşıyorum. Lütfen daha sonra tekrar deneyin."
-                : "I'm currently experiencing technical difficulties. Please try again later.";
-        }
+        const errorResponse = getFallbackResponse(req.body.message || '');
 
         console.log('Error Response:', errorResponse);
         console.log('=== End of Transaction (Error) ===\n');
@@ -191,58 +190,129 @@ app.post('/ai-api/chat', async (req, res) => {
 app.post('/ai-api/feedback', async (req, res) => {
     try {
         const { messageId, feedback } = req.body;
+        app.post('/ai-api/feedback', async (req, res) => {
+            try {
+                const { messageId, feedback } = req.body;
+                
+                // Son mesaj ve yanıtı al
+                const conversation = messageHistory.get(messageId);
+                if (!conversation) {
+                    return res.status(404).json({ error: 'Conversation not found' });
+                }
         
-        // Son mesaj ve yanıtı al
-        const conversation = messageHistory.get(messageId);
-        if (!conversation) {
-            return res.status(404).json({ error: 'Conversation not found' });
+                // Öğrenme sistemine kaydet
+                await learningSystem.learnFromConversation(
+                    conversation.message,
+                    conversation.response,
+                    feedback
+                );
+        
+                console.log(`Feedback received for message ${messageId}: ${feedback}`);
+                res.json({ success: true });
+            } catch (error) {
+                console.error('Feedback error:', error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        });
+        
+        // Sağlık kontrolü endpoint'i
+        app.get('/ai-api/health', (req, res) => {
+            res.json({ 
+                status: 'healthy',
+                timestamp: new Date().toISOString(),
+                environment: process.env.NODE_ENV || 'development',
+                version: process.env.npm_package_version || '1.0.0'
+            });
+        });
+        
+        // Test endpoint'i (sadece development ortamında)
+        if (process.env.NODE_ENV === 'development') {
+            app.get('/ai-api/test', async (req, res) => {
+                try {
+                    const testMessage = "Hello, this is a test message";
+                    const response = await generateOpenAIResponse(testMessage, []);
+                    res.json({ 
+                        success: true, 
+                        message: testMessage,
+                        response: response 
+                    });
+                } catch (error) {
+                    res.status(500).json({ 
+                        success: false, 
+                        error: error.message 
+                    });
+                }
+            });
         }
-
-        // Öğrenme sistemine kaydet
-        await learningSystem.learnFromConversation(
-            conversation.message,
-            conversation.response,
-            feedback
-        );
-
-        console.log(`Feedback received for message ${messageId}: ${feedback}`);
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Feedback error:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-// Sağlık kontrolü endpoint'i
-app.get('/ai-api/health', (req, res) => {
-    res.json({ 
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development'
-    });
-});
-
-// Metrics endpoint'i (basit kullanım istatistikleri)
-app.get('/ai-api/metrics', (req, res) => {
-    res.json({
-        totalConversations: messageHistory.size,
-        cacheSize: responseCache.getStats().keys,
-        uptime: process.uptime()
-    });
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`AI Server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('SIGTERM received. Performing graceful shutdown...');
-    // Cache ve geçmişi kaydet
-    learningSystem.saveLearningData();
-    process.exit(0);
-});
-
-module.exports = app;
+        
+        // Error handling middleware
+        app.use((err, req, res, next) => {
+            console.error('Global error handler:', err);
+            const lang = detectLanguage(req.body?.message || '');
+            
+            res.status(err.status || 500).json({
+                response: lang === 'tr' 
+                    ? "Üzgünüm, bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+                    : "Sorry, an error occurred. Please try again later.",
+                error: true
+            });
+        });
+        
+        // 404 handler
+        app.use((req, res) => {
+            res.status(404).json({
+                error: 'Not Found',
+                message: 'The requested endpoint does not exist'
+            });
+        });
+        
+        const PORT = process.env.PORT || 5000;
+        
+        // Graceful shutdown işlemleri
+        const gracefulShutdown = () => {
+            console.log('Received shutdown signal. Starting graceful shutdown...');
+            
+            // Öğrenme verilerini kaydet
+            learningSystem.saveLearningData();
+            
+            // Cache'i temizle
+            responseCache.close();
+            
+            // Mesaj geçmişini temizle
+            messageHistory.clear();
+            
+            // Sunucuyu kapat
+            server.close(() => {
+                console.log('Server closed. Process will exit now.');
+                process.exit(0);
+            });
+        
+            // Eğer 10 saniye içinde kapanmazsa zorla kapat
+            setTimeout(() => {
+                console.log('Could not close connections in time, forcefully shutting down');
+                process.exit(1);
+            }, 10000);
+        };
+        
+        // Sunucuyu başlat
+        const server = app.listen(PORT, () => {
+            console.log(`AI Server running on port ${PORT}`);
+            console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+        });
+        
+        // Graceful shutdown sinyallerini dinle
+        process.on('SIGTERM', gracefulShutdown);
+        process.on('SIGINT', gracefulShutdown);
+        
+        // Yakalanmamış hataları yakala
+        process.on('uncaughtException', (error) => {
+            console.error('Uncaught Exception:', error);
+            gracefulShutdown();
+        });
+        
+        process.on('unhandledRejection', (reason, promise) => {
+            console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+            gracefulShutdown();
+        });
+        
+        module.exports = app;
