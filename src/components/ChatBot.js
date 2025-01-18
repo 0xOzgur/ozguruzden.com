@@ -5,7 +5,7 @@ import './ChatBot.css';
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Merhaba! Ben Özgür'ün AI asistanıyım. Size nasıl yardımcı olabilirim?", sender: 'bot' }
+    { text: "Hello! I'am AI assistant of Ozgur. How can I help you?", sender: 'bot' }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -50,8 +50,8 @@ const ChatBot = () => {
       </div>
       {message.sender === 'bot' && id === lastMessageId && (
         <div className="feedback-buttons">
-          <button onClick={() => sendFeedback(id, true)} title="Yararlı">👍</button>
-          <button onClick={() => sendFeedback(id, false)} title="Yararlı Değil">👎</button>
+          <button onClick={() => sendFeedback(id, true)} title="Useful">👍</button>
+          <button onClick={() => sendFeedback(id, false)} title="Not Useful">👎</button>
         </div>
       )}
     </div>
@@ -85,7 +85,7 @@ const ChatBot = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Sunucu yanıt vermedi');
+        throw new Error('Server doesnt response');
       }
 
       const data = await response.json();
@@ -100,9 +100,9 @@ const ChatBot = () => {
 
     } catch (error) {
       console.error('Error:', error);
-      setError('Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.');
+      setError('Sorry, an error occured. Please try again.');
       setMessages(prev => [...prev, {
-        text: "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.",
+        text: "Sorry, an error occured. Please try again.",
         sender: 'bot'
       }]);
     } finally {
@@ -131,7 +131,7 @@ const ChatBot = () => {
       {isOpen && (
         <div className="chat-window">
           <div className="chat-header">
-            <h3>AI Asistan</h3>
+            <h3>AI Chat Bot</h3>
           </div>
           
           <div className="messages-container">
@@ -163,7 +163,7 @@ const ChatBot = () => {
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Mesajınızı yazın..."
+              placeholder="Type your message..."
               disabled={isTyping}
               aria-label="Message input"
             />
@@ -172,7 +172,7 @@ const ChatBot = () => {
               disabled={isTyping}
               aria-label="Send message"
             >
-              {isTyping ? '...' : 'Gönder'}
+              {isTyping ? '...' : 'Send'}
             </button>
           </form>
         </div>
