@@ -1,4 +1,3 @@
-// server/aiserver.js
 const express = require('express');
 const cors = require('cors');
 const { generateOpenAIResponse } = require('./openai');
@@ -190,129 +189,125 @@ app.post('/ai-api/chat', async (req, res) => {
 app.post('/ai-api/feedback', async (req, res) => {
     try {
         const { messageId, feedback } = req.body;
-        app.post('/ai-api/feedback', async (req, res) => {
-            try {
-                const { messageId, feedback } = req.body;
-                
-                // Son mesaj ve yanıtı al
-                const conversation = messageHistory.get(messageId);
-                if (!conversation) {
-                    return res.status(404).json({ error: 'Conversation not found' });
-                }
-        
-                // Öğrenme sistemine kaydet
-                await learningSystem.learnFromConversation(
-                    conversation.message,
-                    conversation.response,
-                    feedback
-                );
-        
-                console.log(`Feedback received for message ${messageId}: ${feedback}`);
-                res.json({ success: true });
-            } catch (error) {
-                console.error('Feedback error:', error);
-                res.status(500).json({ error: 'Internal server error' });
-            }
-        });
-        
-        // Sağlık kontrolü endpoint'i
-        app.get('/ai-api/health', (req, res) => {
+        const conversation = messageHistory.get(messageId);
+        if (!conversation) {
+            return res.status(404).json({ error: 'Conversation not found' });
+        }
+
+        // Öğrenme sistemine kaydet
+        await learningSystem.learnFromConversation(
+            conversation.message,
+            conversation.response,
+            feedback
+        );
+
+        console.log(`Feedback received for message ${messageId}: ${feedback}`);
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Feedback error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Sağlık kontrolü endpoint'i
+app.get('/ai-api/health', (req, res) => {
+    res.json({ 
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        version: process.env.npm_package_version || '1.0.0'
+    });
+});
+
+// Test endpoint'i (sadece development ortamında)
+if (process.env.NODE_ENV === 'development') {
+    app.get('/ai-api/test', async (req, res) => {
+        try {
+            const testMessage = "Hello, this is a test message";
+            const response = await generateOpenAIResponse(testMessage, []);
             res.json({ 
-                status: 'healthy',
-                timestamp: new Date().toISOString(),
-                environment: process.env.NODE_ENV || 'development',
-                version: process.env.npm_package_version || '1.0.0'
+                success: true, 
+                message: testMessage,
+                response: response 
             });
-        });
-        
-        // Test endpoint'i (sadece development ortamında)
-        if (process.env.NODE_ENV === 'development') {
-            app.get('/ai-api/test', async (req, res) => {
-                try {
-                    const testMessage = "Hello, this is a test message";
-                    const response = await generateOpenAIResponse(testMessage, []);
-                    res.json({ 
-                        success: true, 
-                        message: testMessage,
-                        response: response 
-                    });
-                } catch (error) {
-                    res.status(500).json({ 
-                        success: false, 
-                        error: error.message 
-                    });
-                }
+        } catch (error) {
+            res.status(500).json({ 
+                success: false, 
+                error: error.message 
             });
         }
-        
-        // Error handling middleware
-        app.use((err, req, res, next) => {
-            console.error('Global error handler:', err);
-            const lang = detectLanguage(req.body?.message || '');
-            
-            res.status(err.status || 500).json({
-                response: lang === 'tr' 
-                    ? "Üzgünüm, bir hata oluştu. Lütfen daha sonra tekrar deneyin."
-                    : "Sorry, an error occurred. Please try again later.",
-                error: true
-            });
-        });
-        
-        // 404 handler
-        app.use((req, res) => {
-            res.status(404).json({
-                error: 'Not Found',
-                message: 'The requested endpoint does not exist'
-            });
-        });
-        
-        const PORT = process.env.PORT || 5000;
-        
-        // Graceful shutdown işlemleri
-        const gracefulShutdown = () => {
-            console.log('Received shutdown signal. Starting graceful shutdown...');
-            
-            // Öğrenme verilerini kaydet
-            learningSystem.saveLearningData();
-            
-            // Cache'i temizle
-            responseCache.close();
-            
-            // Mesaj geçmişini temizle
-            messageHistory.clear();
-            
-            // Sunucuyu kapat
-            server.close(() => {
-                console.log('Server closed. Process will exit now.');
-                process.exit(0);
-            });
-        
-            // Eğer 10 saniye içinde kapanmazsa zorla kapat
-            setTimeout(() => {
-                console.log('Could not close connections in time, forcefully shutting down');
-                process.exit(1);
-            }, 10000);
-        };
-        
-        // Sunucuyu başlat
-        const server = app.listen(PORT, () => {
-            console.log(`AI Server running on port ${PORT}`);
-            console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-        });
-        
-        // Graceful shutdown sinyallerini dinle
-        process.on('SIGTERM', gracefulShutdown);
-        process.on('SIGINT', gracefulShutdown);
-        
-        // Yakalanmamış hataları yakala
-        process.on('uncaughtException', (error) => {
-            console.error('Uncaught Exception:', error);
-            gracefulShutdown();
-        });
-        
-        process.on('unhandledRejection', (reason, promise) => {
-            console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-            gracefulShutdown();
-        });
-        
-        module.exports = app;
+    });
+}
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    const lang = detectLanguage(req.body?.message || '');
+    
+    res.status(err.status || 500).json({
+        response: lang === 'tr' 
+            ? "Üzgünüm, bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+            : "Sorry, an error occurred. Please try again later.",
+        error: true
+    });
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        error: 'Not Found',
+        message: 'The requested endpoint does not exist'
+    });
+});
+
+// Graceful shutdown işlemleri
+const gracefulShutdown = () => {
+    console.log('Received shutdown signal. Starting graceful shutdown...');
+    
+    // Öğrenme verilerini kaydet
+    learningSystem.saveLearningData();
+    
+    // Cache'i temizle
+    responseCache.close();
+    
+    // Mesaj geçmişini temizle
+    messageHistory.clear();
+    
+    // Sunucuyu kapat
+    server.close(() => {
+        console.log('Server closed. Process will exit now.');
+        process.exit(0);
+    });
+
+    // Eğer 10 saniye içinde kapanmazsa zorla kapat
+    setTimeout(() => {
+        console.log('Could not close connections in time, forcefully shutting down');
+        process.exit(1);
+    }, 10000);
+};
+
+const PORT = process.env.PORT || 5000;
+
+// Sunucuyu başlat
+const server = app.listen(PORT, () => {
+    console.log(`AI Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log('No existing learning data found. Starting fresh.');
+});
+
+// Graceful shutdown sinyallerini dinle
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
+
+// Yakalanmamış hataları yakala
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    gracefulShutdown();
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    gracefulShutdown();
+});
+
+module.exports = app;
