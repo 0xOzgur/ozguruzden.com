@@ -8,11 +8,11 @@ function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || 'https://ozguruzden.com:1337';
+  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || 'https://ozguruzden.com';
 
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await axios.get('http://ozguruzden.com/api/projects?populate=*&sort=order:asc', {
+      const response = await axios.get(`${STRAPI_URL}/api/projects?populate=*&sort=order:asc`, {
         withCredentials: true,
       });
       //const response = await axios.get('http://localhost:1337/api/projects');
