@@ -12,7 +12,7 @@ function Projects() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:1337/api/projects?populate=*&sort=order:asc', {
+      const response = await axios.get('http://ozguruzden.com/api/projects?populate=*&sort=order:asc', {
         withCredentials: true,
       });
       //const response = await axios.get('http://localhost:1337/api/projects');
