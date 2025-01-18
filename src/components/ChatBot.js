@@ -60,55 +60,52 @@ const ChatBot = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
+    
+    setIsTyping(true);
     setError(null);
 
     const userMessage = { text: inputMessage, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
-    setIsTyping(true);
 
     try {
-      const chatHistory = messages.map(msg => ({
-        role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: msg.text
-      }));
+        const response = await fetch('https://ozguruzden.com/ai-api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: inputMessage,
+                chatHistory: messages.map(msg => ({
+                    role: msg.sender === 'user' ? 'user' : 'assistant',
+                    content: msg.text
+                }))
+            }),
+        });
 
-      const response = await fetch('http://localhost:5000/ai-api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: inputMessage,
-          chatHistory: chatHistory
-        }),
-      });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Bir hata oluştu');
+        }
 
-      if (!response.ok) {
-        throw new Error('Server doesnt response');
-      }
-
-      const data = await response.json();
-
-      setMessages(prev => [...prev, {
-        text: data.response,
-        sender: 'bot'
-      }]);
-
-      // Son bot mesajı için ID'yi kaydet
-      setLastMessageId(messages.length + 1);
+        const data = await response.json();
+        
+        setMessages(prev => [...prev, {
+            text: data.response,
+            sender: 'bot'
+        }]);
 
     } catch (error) {
-      console.error('Error:', error);
-      setError('Sorry, an error occured. Please try again.');
-      setMessages(prev => [...prev, {
-        text: "Sorry, an error occured. Please try again.",
-        sender: 'bot'
-      }]);
+        console.error('Chat error:', error);
+        setError(error.message);
+        setMessages(prev => [...prev, {
+            text: 'Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.',
+            sender: 'bot'
+        }]);
     } finally {
-      setIsTyping(false);
+        setIsTyping(false);
     }
-  };
+};
 
   // Enter tuşu ile gönderme
   const handleKeyPress = (e) => {
