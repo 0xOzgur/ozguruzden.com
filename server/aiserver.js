@@ -9,7 +9,41 @@ const learningSystem = require('./learning');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+
+// CORS options
+const corsOptions = {
+    origin: [
+        'https://ozguruzden.com',
+        'https://www.ozguruzden.com',
+        'http://localhost:3000'
+    ],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+// CORS middleware'ini options ile kullanın
+app.use(cors(corsOptions));
+
+// Manuel CORS başlıkları
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (corsOptions.origin.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    
+    // OPTIONS request için hızlı yanıt
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    
+    next();
+});
+
 app.use(express.json());
 
 // Rate limiting
@@ -34,21 +68,26 @@ const detectLanguage = (text) => {
 
 // Fallback yanıt oluşturma
 const getFallbackResponse = (message) => {
-    const lang = detectLanguage(message);
+    if (!message) {
+        return responseDatabase.default.en;
+    }
     
-    // Basit keyword kontrolü
+    const lang = detectLanguage(message);
     const lowercaseMessage = message.toLowerCase();
+    
+    // Try to find a matching category
     for (const category in responseDatabase) {
         if (category === 'default') continue;
         
         const categoryData = responseDatabase[category];
         if (categoryData.keywords && 
             categoryData.keywords.some(keyword => lowercaseMessage.includes(keyword.toLowerCase()))) {
-            return categoryData[lang];
+            return categoryData[lang] || categoryData['en']; // Fallback to English if translation not available
         }
     }
     
-    return responseDatabase.default[lang];
+    // Return default response if no match found
+    return responseDatabase.default[lang] || responseDatabase.default['en'];
 };
 
 // Ana chat endpoint'i
@@ -126,15 +165,25 @@ app.post('/ai-api/chat', async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         const lang = detectLanguage(req.body.message || '');
-        const errorMessage = error.message === 'empty_message'
-            ? (lang === 'tr' ? 'Lütfen bir mesaj yazın.' : 'Please enter a message.')
-            : responseDatabase.default[lang];
+        
+        // First try to get a relevant response based on keywords
+        let errorResponse = getFallbackResponse(req.body.message || '');
+        
+        // If that fails, use a default error message
+        if (!errorResponse) {
+            errorResponse = lang === 'tr' 
+                ? "Şu anda teknik bir sorun yaşıyorum. Lütfen daha sonra tekrar deneyin."
+                : "I'm currently experiencing technical difficulties. Please try again later.";
+        }
 
-        console.log('Error Response:', errorMessage);
+        console.log('Error Response:', errorResponse);
         console.log('=== End of Transaction (Error) ===\n');
 
         res.status(error.message === 'empty_message' ? 400 : 500)
-            .json({ error: errorMessage });
+            .json({ 
+                response: errorResponse,
+                error: true
+            });
     }
 });
 
