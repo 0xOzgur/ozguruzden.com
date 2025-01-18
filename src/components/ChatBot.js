@@ -24,7 +24,7 @@ const ChatBot = () => {
   // Feedback gönderme fonksiyonu
   const sendFeedback = async (messageId, isPositive) => {
     try {
-      await fetch('http://localhost:5000/api/feedback', {
+      await fetch('http://localhost:5000/ai-api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const ChatBot = () => {
         content: msg.text
       }));
 
-      const response = await fetch('http://localhost:5000/api/chat', {
+      const response = await fetch('http://localhost:5000/ai-api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

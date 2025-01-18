@@ -20,7 +20,7 @@ module.exports = {
       script: "/var/www/ozguruzden.com/server/aiserver.js",
       env_production: {
         NODE_ENV: "production",
-        PORT: 5000
+        PORT: 5000,
       },
       instances: 1,
       exec_mode: "fork",
@@ -29,7 +29,7 @@ module.exports = {
       watch: false,
       max_restarts: 3,
       kill_timeout: 3000,
-      min_uptime: '60s',
+      min_uptime: '60s'
     }
   ]
 };
