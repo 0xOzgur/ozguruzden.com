@@ -147,7 +147,7 @@ h2 {
 .scroll-to-top {
   position: fixed;
   bottom: 40px;
-  right: 40px;
+  left: 20px; 
   background: rgba(0, 0, 0, 0.7);
   width: 40px;
   height: 40px;
@@ -183,7 +183,7 @@ h2 {
 @media (max-width: 768px) {
   .scroll-to-top {
     bottom: 30px;
-    right: 30px;
+    left: 15px;
     width: 35px;
     height: 35px;
   }
