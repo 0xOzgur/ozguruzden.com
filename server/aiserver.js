@@ -53,8 +53,7 @@ const defaultResponses = {
     },
     contact: {
         keywords: ['contact', 'email', 'reach', 'iletişim', 'mail', 'ulaş'],
-        en: "You can contact Ozgur via email at 0xOzgurx@gmail.com or check out his GitHub profile at github.com/ozguruzden",
-        tr: "Özgür'e 0xOzgurx@gmail.com adresinden ulaşabilir veya github.com/ozguruzden adresinden GitHub profilini inceleyebilirsiniz"
+        en: "You can contact Ozgur via email at 0xOzgurx@gmail.com or check out his GitHub profile at github.com/ozguruzden",        tr: "Özgür'e 0xOzgurx@gmail.com adresinden ulaşabilir veya github.com/ozguruzden adresinden GitHub profilini inceleyebilirsiniz"
     },
     skills: {
         keywords: ['skills', 'experience', 'work', 'deneyim', 'tecrübe', 'yetenek'],
@@ -309,5 +308,3 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
     gracefulShutdown();
 });
-
-module.exports = app;
