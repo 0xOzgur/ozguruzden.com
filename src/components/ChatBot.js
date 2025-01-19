@@ -12,6 +12,14 @@ const ChatBot = () => {
   const [error, setError] = useState(null);
   const [lastMessageId, setLastMessageId] = useState(null);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null); // Input için ref ekleyelim
+
+  // Input'u aktif tutmak için useEffect ekleyelim
+  useEffect(() => {
+    if (inputRef.current) {
+        inputRef.current.focus();
+    }
+}, [messages, isTyping]); // messages veya isTyping değiştiğinde input'u aktif et
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -104,6 +112,11 @@ const ChatBot = () => {
         }]);
     } finally {
         setIsTyping(false);
+        // Input'a fokus yap
+        const inputElement = document.querySelector('.input-form input');
+        if (inputElement) {
+            inputElement.focus();
+        }
     }
 };
 
@@ -161,8 +174,9 @@ const ChatBot = () => {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              disabled={isTyping}
+              //disabled={isTyping}
               aria-label="Message input"
+              autoFocus  // Otomatik odaklanma
             />
             <button 
               type="submit" 
