@@ -11,7 +11,7 @@ function Contact() {
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(null);
 
-  const apiUrl = 'https://ozguruzden.com/api';
+  const apiUrl = 'https://ozguruzden.com/mail-api';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
