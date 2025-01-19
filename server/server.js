@@ -15,7 +15,7 @@ app.use(cors({
 }));
 
 // Test endpoint
-app.get('/api', (req, res) => {
+app.get('/mail-api', (req, res) => {
     console.log('Test endpoint hit!');
     try {
         res.json({ message: 'API is working!' });
@@ -26,7 +26,7 @@ app.get('/api', (req, res) => {
 });
 
 // Basic test endpoint
-app.get('/api/test', (req, res) => {
+app.get('/mail-api/test', (req, res) => {
     console.log('Basic test endpoint hit!');
     try {
         res.json({ message: 'Basic test endpoint is working!' });
@@ -37,7 +37,7 @@ app.get('/api/test', (req, res) => {
 });
 
 // Email endpoint
-app.post('/api/send-email', async (req, res) => {
+app.post('/mail-api/send-email', async (req, res) => {
     console.log('Email endpoint hit!');
     
     try {
@@ -133,7 +133,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
-    console.log('- GET /api');
-    console.log('- GET /api/test');
-    console.log('- POST /api/send-email');
+    console.log('- GET /mail-api');
+    console.log('- GET /mail-api/test');
+    console.log('- POST /mail-api/send-email');
 });
