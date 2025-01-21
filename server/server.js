@@ -38,7 +38,7 @@ app.get('/mail-api/test', (req, res) => {
 });
 
 // Email endpoint
-app.post('/mail-api/send-email', async (req, res) => {
+app.post('/mail-api', async (req, res) => {
     console.log('Email endpoint hit!');
     
     try {
