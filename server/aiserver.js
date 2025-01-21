@@ -7,7 +7,7 @@ const learningSystem = require('./learning');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.AI_SERVER_PORT || 5000;
+//const PORT = process.env.AI_SERVER_PORT || 5000;
 
 // Trust proxy ayarı (Nginx arkasında çalıştığı için)
 app.set('trust proxy', 1);
