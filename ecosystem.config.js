@@ -2,7 +2,7 @@ module.exports = {
   apps : [
     {
       name: "ozguruzden-server",
-      script: "/var/www/ozguruzden.com/server/server.js",
+      script: "/var/www/ozguruzden.com/servers/mail-server/mail-server.js",
       env_production: {
         NODE_ENV: "production"
       },
@@ -17,7 +17,7 @@ module.exports = {
     },
     {
       name: "ai-server",
-      script: "/var/www/ozguruzden.com/server/aiserver.js",
+      script: "/var/www/ozguruzden.com/servers/ai-server/aiserver.js",
       env_production: {
         NODE_ENV: "production",
         PORT: 5000,

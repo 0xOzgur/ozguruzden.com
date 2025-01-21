@@ -1,0 +1,29 @@
+{
+  "name": "mail-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mail-server/mail-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ai-server/aiserver.js",
+    "start-ai": "node ai-server/aiserver.js",
+    "dev": "nodemon ai-server/aiserver.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@huggingface/inference": "^3.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "natural": "^8.0.1",
+    "node-cache": "^5.1.2",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.79.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
