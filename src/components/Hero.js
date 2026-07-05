@@ -44,7 +44,7 @@ function Hero() {
 
     const titleText = "Hello, I'm";
     const subtitleText = "Özgür Üzden";
-    const descriptionText = "Full Stack Developer & Blockchain Developer";
+    const descriptionText = "Producer of Orfion Olive Oil & Oligatto — Olive Oil Production, Software & Technology Researcher";
 
     const startTyping = async () => {
       // Wait for DOM to be ready

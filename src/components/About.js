@@ -1,23 +1,23 @@
 import React from 'react';
+import { FaLeaf, FaWordpress, FaRobot, FaBitcoin, FaDatabase, FaFlask, FaCamera, FaMusic } from 'react-icons/fa';
+import { SiNextdotjs } from 'react-icons/si';
 import './About.css';
 
 function About() {
     const skills = [
-        { name: 'JavaScript', level: 90, icon: 'fab fa-js' },
-        { name: 'React', level: 85, icon: 'fab fa-react' },
-        { name: 'Next.js', level: 80, icon: 'fab fa-node-js' },
-        { name: 'HTML5/CSS3', level: 75, icon: 'fab fa-html5' },
-        { name: 'WordPress', level: 95, icon: 'fab fa-wordpress' },
-        { name: 'Solidity', level: 85, icon: 'fab fa-bitcoin' },
-        { name: 'MySQL/MongoDB', level: 80, icon: 'fab fa-node-js' },
-        { name: 'Git', level: 90, icon: 'fab fa-git-alt' },
+        { name: 'Olive Oil Production', level: 95, icon: FaLeaf },
+        { name: 'E-Commerce & WordPress', level: 95, icon: FaWordpress },
+        { name: 'Artificial Intelligence', level: 85, icon: FaRobot },
+        { name: 'Next.js', level: 80, icon: SiNextdotjs },
+        { name: 'Blockchain & Solidity', level: 85, icon: FaBitcoin },
+        { name: 'MySQL/MongoDB', level: 80, icon: FaDatabase },
     ];
 
     const interests = [
-        { name: 'Web Development', icon: 'fas fa-code' },
-        { name: 'Olive Oil Production', icon: 'fas fa-leaf' },
-        { name: 'Photography', icon: 'fas fa-camera' },
-        { name: 'Playing Saxophone', icon: 'fas fa-music' },
+        { name: 'Technology Research', icon: FaFlask },
+        { name: 'Olive Oil Production', icon: FaLeaf },
+        { name: 'Photography', icon: FaCamera },
+        { name: 'Playing Saxophone', icon: FaMusic },
     ];
 
     const handleClick = (e) => {
@@ -55,7 +55,7 @@ function About() {
                             <div className="interests-grid">
                                 {interests.map((interest, index) => (
                                     <div key={index} className="interest-item">
-                                        <i className={`fa ${interest.icon} interest-icon`} />
+                                        <interest.icon className="interest-icon" />
                                         <span className="interest-name">{interest.name}</span>
                                     </div>
                                 ))}
@@ -66,30 +66,30 @@ function About() {
                     <div className="about-text-content">
                         <div className="introduction">
                             <p className="lead-text">
-                                It's Özgür, a seasoned web developer, engineer, and entrepreneur.
+                                It's Özgür — producer of Orfion Olive Oil and Oligatto Olive Pits Cat Litter, and a researcher in olive oil production, software, and technology.
                             </p>
                         </div>
                         
                         <div className="main-content">
                             <p>
-                            I’m passionate about coding and producing <a href='https://www.orfion.com.tr' className="custom-link" target='_blank' rel="noopener noreferrer">Orfion Olive Oil</a>- both show how much I care about quality.
+                            I produce <a href='https://www.orfion.com.tr' className="custom-link" target='_blank' rel="noopener noreferrer">Orfion Olive Oil</a> and <a href='https://www.oligatto.com' className="custom-link" target='_blank' rel="noopener noreferrer">Oligatto Olive Pits Cat Litter</a> — a dust-free, biodegradable litter born from upcycling the olive pits left over from our oil production. Both reflect how much I care about quality and sustainability.
                             </p>
-                            
+
                             <p>
-                            I bring this same passion to web development, designing projects that are as beautiful to look at as they are seamless to use.
+                            As a researcher, I explore olive oil production technologies and build the software that supports them — from e-commerce platforms to production tools. My engineering background feeds directly into how I produce, measure, and improve.
                             </p>
-                            
+
                             <p>
-                                Outside of work and olive oil, I'm big fan of Blockchain technologies. I'm also a proud dad to my daughter. In my free time, I enjoy taking photos and playing the saxophone. I mix my technical skills with my creative side in every project I work on.
+                                Beyond production and research, I keep a close eye on emerging technologies like artificial intelligence and blockchain. I'm also a proud dad to my daughter. In my free time, I enjoy taking photos and playing the saxophone. I mix my technical skills with my creative side in everything I work on.
                             </p>
                         </div>
                         
                         <div className="skills-section">
-                            <h3 className="card-title">Technical Skills</h3>
+                            <h3 className="card-title">Skills & Expertise</h3>
                             <div className="two-column-grid">
                                 {skills.map((skill, index) => (
                                     <div key={index} className="skill-item">
-                                        <i className={`fa ${skill.icon} skill-icon`} />
+                                        <skill.icon className="skill-icon" />
                                         <span className="skill-name">{skill.name}</span>
                                         <div className="skill-bar-container">
                                             <div 
