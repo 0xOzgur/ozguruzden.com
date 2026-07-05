@@ -28,11 +28,10 @@ rm -rf build
 mv "$BUILD_TMP" build
 
 echo "==> [5/5] Mail sunucusu yeniden başlatılıyor..."
-if pm2 describe ozguruzden-server > /dev/null 2>&1; then
-    pm2 restart ozguruzden-server
-else
-    pm2 start ecosystem.config.js --env production
-fi
+# startOrRestart, ecosystem.config.js'i her seferinde yeniden okur;
+# böylece port/env değişiklikleri restart'ta kaybolmaz
+pm2 startOrRestart ecosystem.config.js --env production
+pm2 save
 
 # Artık kullanılmayan AI sunucusu hâlâ kayıtlıysa kaldır
 if pm2 describe ai-server > /dev/null 2>&1; then
