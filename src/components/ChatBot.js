@@ -79,8 +79,10 @@ const ChatBot = () => {
     try {
         const response = await fetch('https://ozguruzden.com/ai-api/chat', {
             method: 'POST',
+            mode: 'cors', // mode'u cors olarak belirtelim
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 message: inputMessage,
@@ -113,9 +115,8 @@ const ChatBot = () => {
     } finally {
         setIsTyping(false);
         // Input'a fokus yap
-        const inputElement = document.querySelector('.input-form input');
-        if (inputElement) {
-            inputElement.focus();
+        if (inputRef.current) {
+            inputRef.current.focus();
         }
     }
 };
